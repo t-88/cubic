@@ -1,15 +1,12 @@
+#include "pch.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
 
 
 #include "cube.h"
+#include "cubic.h"
 #include "shader.h"
-
+#include "shared.h"
 
 
 const float WIDTH  = 800.f;
@@ -32,46 +29,69 @@ int main(){
 
 
 	Shader shader = Shader("shader/white.shader");
-	Cube cube = Cube();
+	// Cube cube = Cube();
+	Cubic cube = Cubic(2);
 
 	//projection matrix (prespective projection)
-	glm::mat4 proj = glm::perspective(glm::radians(45.f),WIDTH / HEIGHT,1.f , 100.f);
+	glm::mat4 proj = glm::perspective(glm::radians(45.f),WIDTH / HEIGHT,1.f,100.f);
 	//model matrix used for the model transformation (scale , rotate, transform)
 	glm::mat4 model = glm::mat4(1.f);
-
 	//view matrix used to controle the view of scene
 	glm::mat4 view = glm::mat4(1.f);
+
+
 	int modelLoc = glGetUniformLocation(shader.id,"model");
 	int projLoc = glGetUniformLocation(shader.id,"view");
 	int viewLoc = glGetUniformLocation(shader.id,"proj");
 
-
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); 
+	(void) (io);
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window,true);
+	ImGui_ImplOpenGL3_Init("#version 330");
 
 
 
 	glEnable(GL_DEPTH_TEST);
-	while(!glfwWindowShouldClose(window)) {
+	bool isDone = false;
+	while(!glfwWindowShouldClose(window) && !isDone) {
 		if(glfwGetKey(window,GLFW_KEY_ESCAPE) == GLFW_PRESS) 
 			glfwSetWindowShouldClose(window,true);
 
 
-
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		glClearColor(0.f,0.f,0.f,1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.activate();
 
-		model = glm::mat4(1.f);
-		model = glm::translate(model,glm::vec3(0.f,0.f,-4.f));
-		model = glm::rotate(model,(float)glfwGetTime() * glm::radians(50.f), glm::vec3(0.f,1.f,0.f));
-
 
 		glUniformMatrix4fv(modelLoc,1,GL_FALSE,&model[0][0]);
 		glUniformMatrix4fv(projLoc,1,GL_FALSE,&proj[0][0]);
 		glUniformMatrix4fv(viewLoc,1,GL_FALSE,&view[0][0]);
 
-		cube.render();
+
+
+
+		cube.render(shader);
+		cube.input(window);
+
+
+		ImGui::Begin("Sup first time using imgui");
+			ImGui::Text("Hello there man!");
+			ImGui::Checkbox("exit",&isDone);
+			ImGui::SliderFloat("pos",&rotate_angle,0,360);
+			ImGui::SliderFloat("cube x",&cube_x,-10,10);
+			ImGui::SliderFloat("cube y",&cube_y,-10,10);
+			ImGui::SliderFloat("cube z",&cube_z,-10,10);
+		ImGui::End();
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
 		glfwSwapBuffers(window);
@@ -79,6 +99,10 @@ int main(){
 	}
 
 	cube.clean();
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	glfwTerminate();
 	return 0;
 } 	

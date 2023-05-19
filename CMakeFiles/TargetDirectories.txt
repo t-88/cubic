@@ -1,0 +1,3 @@
+/home/tee/Desktop/Projects/c++/cubic/CMakeFiles/main.dir
+/home/tee/Desktop/Projects/c++/cubic/CMakeFiles/edit_cache.dir
+/home/tee/Desktop/Projects/c++/cubic/CMakeFiles/rebuild_cache.dir
