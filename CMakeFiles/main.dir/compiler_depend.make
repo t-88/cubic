@@ -1481,17 +1481,134 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   include/shader.h \
   include/utils.h \
   include/cubic.h \
+  /usr/include/c++/11/set \
+  /usr/include/c++/11/bits/stl_tree.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/stl_set.h \
+  /usr/include/c++/11/bits/stl_multiset.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/char_traits.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/c++/11/bits/localefwd.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
+  /usr/include/c++/11/clocale \
+  /usr/include/locale.h \
+  /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/cctype \
+  /usr/include/ctype.h \
+  /usr/include/c++/11/bits/ostream_insert.h \
+  /usr/include/c++/11/bits/cxxabi_forced.h \
+  /usr/include/c++/11/bits/basic_string.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/11/string_view \
+  /usr/include/c++/11/bits/string_view.tcc \
+  /usr/include/c++/11/ext/string_conversions.h \
+  /usr/include/c++/11/cstdio \
+  /usr/include/c++/11/cerrno \
+  /usr/include/errno.h \
+  /usr/include/x86_64-linux-gnu/bits/errno.h \
+  /usr/include/linux/errno.h \
+  /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/errno-base.h \
+  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+  /usr/include/c++/11/bits/charconv.h \
+  /usr/include/c++/11/bits/basic_string.tcc \
   include/cube.h \
   shared.h \
   include/shader.h \
   shared.h
 
 
+/usr/include/c++/11/bits/basic_string.tcc:
+
+/usr/include/c++/11/bits/charconv.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/x86_64-linux-gnu/asm/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/errno.h:
+
+/usr/include/c++/11/cstdio:
+
+/usr/include/c++/11/bits/string_view.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
+
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+
+/usr/include/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
+
+/usr/include/sched.h:
+
+/usr/include/pthread.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
+
+/usr/include/c++/11/ext/atomicity.h:
+
+/usr/include/x86_64-linux-gnu/bits/locale.h:
+
+/usr/include/c++/11/clocale:
+
+/usr/include/c++/11/bits/localefwd.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+
+/usr/include/c++/11/cwchar:
+
+/usr/include/c++/11/bits/stringfwd.h:
+
+/usr/include/c++/11/bits/stl_multiset.h:
+
+/usr/include/c++/11/set:
+
 include/cubic.h:
 
 include/utils.h:
 
 /usr/include/c++/11/bits/functional_hash.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/c++/11/ext/alloc_traits.h:
 
@@ -1535,6 +1652,8 @@ include/glm/detail/func_packing.inl:
 
 include/glm/detail/func_trigonometric.inl:
 
+/usr/include/c++/11/bits/char_traits.h:
+
 include/glm/ext/matrix_float2x2.hpp:
 
 include/glm/detail/compute_common.hpp:
@@ -1547,13 +1666,19 @@ include/glm/detail/_vectorize.hpp:
 
 include/glm/detail/type_vec1.inl:
 
+/usr/include/c++/11/bits/stl_tree.h:
+
 include/glm/detail/func_matrix.inl:
 
 include/glm/ext/matrix_float4x4.hpp:
 
 include/glm/detail/type_mat4x4.inl:
 
+/usr/include/x86_64-linux-gnu/bits/errno.h:
+
 include/glm/mat4x4.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
 
 include/glm/ext/matrix_float4x3.hpp:
 
@@ -1621,6 +1746,8 @@ include/glm/ext/vector_double4.hpp:
 
 include/glm/ext/vector_float4.hpp:
 
+/usr/include/locale.h:
+
 include/glm/ext/vector_bool4_precision.hpp:
 
 include/glm/detail/type_vec4.hpp:
@@ -1641,6 +1768,8 @@ include/glm/detail/type_vec3.inl:
 
 include/glm/detail/type_vec3.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
 include/glm/ext/vector_bool3.hpp:
 
 include/shader.h:
@@ -1656,6 +1785,8 @@ include/glm/ext/vector_int2.hpp:
 include/glm/mat3x2.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/c++/11/bits/stl_set.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/popcntintrin.h:
 
@@ -1689,6 +1820,8 @@ include/glm/ext/matrix_double3x3.hpp:
 
 /usr/include/c++/11/tr1/beta_function.tcc:
 
+/usr/include/c++/11/bits/stl_function.h:
+
 /usr/include/c++/11/bits/memoryfwd.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/prfchwintrin.h:
@@ -1700,6 +1833,8 @@ include/glm/ext/matrix_double3x3.hpp:
 include/glm/ext/matrix_float4x2_precision.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
 include/glm/trigonometric.hpp:
 
@@ -1718,6 +1853,8 @@ include/glm/detail/_fixes.hpp:
 include/glm/ext/matrix_double4x4_precision.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+
+/usr/include/c++/11/bits/postypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
@@ -1751,6 +1888,8 @@ include/glm/exponential.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/enqcmdintrin.h:
 
+/usr/include/c++/11/bits/cxxabi_forced.h:
+
 include/glm/ext/matrix_float3x4.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/fxsrintrin.h:
@@ -1783,9 +1922,13 @@ include/glm/ext/vector_double3.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h:
 
+/usr/include/c++/11/ext/string_conversions.h:
+
 include/glm/ext/matrix_double2x3.hpp:
 
 include/imgui/imconfig.h:
+
+/usr/include/c++/11/cerrno:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
@@ -1811,7 +1954,11 @@ include/glm/common.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/pmmintrin.h:
 
+/usr/include/c++/11/bits/node_handle.h:
+
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/c++/11/bits/basic_string.h:
 
 /usr/include/linux/limits.h:
 
@@ -1842,6 +1989,8 @@ include/glm/detail/type_mat4x4.hpp:
 /usr/include/c++/11/bits/range_access.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
+
+/usr/include/x86_64-linux-gnu/bits/timex.h:
 
 include/glm/ext/matrix_float4x4_precision.hpp:
 
@@ -1889,6 +2038,8 @@ imgui/imgui_impl_glfw.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
+/usr/include/c++/11/cctype:
+
 include/glm/mat4x3.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avxvnniintrin.h:
@@ -1929,6 +2080,8 @@ include/cube.h:
 
 /usr/include/stdio.h:
 
+/usr/include/c++/11/bits/ostream_insert.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
 /usr/include/c++/11/cassert:
@@ -1955,6 +2108,8 @@ include/glm/detail/type_mat2x3.hpp:
 
 /usr/include/c++/11/tr1/bessel_function.tcc:
 
+/usr/include/c++/11/string_view:
+
 include/glm/ext/matrix_double2x4.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
@@ -1962,6 +2117,8 @@ include/glm/ext/matrix_double2x4.hpp:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
 /usr/include/c++/11/bits/stl_bvector.h:
 
@@ -1995,6 +2152,8 @@ include/glm/vec2.hpp:
 
 /usr/include/features-time64.h:
 
+/usr/include/c++/11/ext/aligned_buffer.h:
+
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/clflushoptintrin.h:
@@ -2024,6 +2183,8 @@ include/glm/geometric.hpp:
 include/glm/simd/platform.h:
 
 /usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
@@ -2085,6 +2246,8 @@ imgui/imgui_demo.cpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/tsxldtrkintrin.h:
 
+/usr/include/c++/11/string:
+
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/clwbintrin.h:
@@ -2106,6 +2269,8 @@ include/imgui/imstb_textedit.h:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/lwpintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/movdirintrin.h:
+
+/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 include/glm/detail/type_mat3x3.hpp:
 
@@ -2157,6 +2322,8 @@ include/pch.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/tmmintrin.h:
 
+/usr/include/c++/11/iosfwd:
+
 /usr/include/c++/11/initializer_list:
 
 include/glm/ext/scalar_constants.hpp:
@@ -2168,6 +2335,8 @@ include/glm/ext/scalar_constants.hpp:
 include/glm/ext/matrix_double2x3_precision.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/wmmintrin.h:
+
+/usr/include/c++/11/bits/erase_if.h:
 
 include/glm/ext/matrix_double2x2_precision.hpp:
 
@@ -2195,6 +2364,8 @@ include/glm/mat3x3.hpp:
 
 /usr/include/c++/11/cstdint:
 
+/usr/include/wchar.h:
+
 include/glm/ext/matrix_float2x2_precision.hpp:
 
 include/glm/ext/vector_uint3.hpp:
@@ -2202,6 +2373,8 @@ include/glm/ext/vector_uint3.hpp:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bwintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512dqintrin.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlbwintrin.h:
 
@@ -2302,6 +2475,8 @@ include/imgui/imgui_impl_opengl3_loader.h:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmavlintrin.h:
 
 include/glm/fwd.hpp:
+
+/usr/include/c++/11/backward/binders.h:
 
 include/glm/ext/vector_bool2.hpp:
 

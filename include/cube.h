@@ -9,15 +9,17 @@ class Cube
 private:
    std::vector<float> vertices;
    std::vector<uint32_t> indices;
-   float pos[3];
-
-
+   
+   
     uint32_t vaoID;
     uint32_t vboID;
     uint32_t eboID;
 public:
+   float pos[3];
     
-    Cube(float _colors[6][3]);
+
+
+    Cube(float _colors[3][3]);
     ~Cube();
 
     void setPos(float x, float y, float z);
@@ -25,49 +27,49 @@ public:
     void clean();
 };
 
-Cube::Cube(float colors[6][3]) {
+Cube::Cube(float colors[3][3]) {
     vertices = {
-                -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
-                0.5f, -0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
-                0.5f,  0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
-                0.5f,  0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
-                -0.5f,  0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
-                -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
+                // -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
+                // 0.5f, -0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
+                // 0.5f,  0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
+                // 0.5f,  0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
+                // -0.5f,  0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
+                // -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
 
-                -0.5f, -0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
-                0.5f, -0.5f,  0.5f,  colors[1][0] , colors[1][1], colors[1][2],
-                0.5f,  0.5f,  0.5f,  colors[1][0] , colors[1][1], colors[1][2],
-                0.5f,  0.5f,  0.5f,  colors[1][0] , colors[1][1], colors[1][2],
+                -0.5f, -0.5f,  0.5f, colors[0][0] , colors[0][1], colors[0][2],
+                0.5f, -0.5f,  0.5f,  colors[0][0] , colors[0][1], colors[0][2],
+                0.5f,  0.5f,  0.5f,  colors[0][0] , colors[0][1], colors[0][2],
+                0.5f,  0.5f,  0.5f,  colors[0][0] , colors[0][1], colors[0][2],
+                -0.5f,  0.5f,  0.5f, colors[0][0] , colors[0][1], colors[0][2],
+                -0.5f, -0.5f,  0.5f, colors[0][0] , colors[0][1], colors[0][2],
+
                 -0.5f,  0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
+                -0.5f,  0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
+                -0.5f, -0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
+                -0.5f, -0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
                 -0.5f, -0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
+                -0.5f,  0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
 
-                -0.5f,  0.5f,  0.5f, colors[2][0] , colors[2][1], colors[2][2],
-                -0.5f,  0.5f, -0.5f, colors[2][0] , colors[2][1], colors[2][2],
-                -0.5f, -0.5f, -0.5f, colors[2][0] , colors[2][1], colors[2][2],
-                -0.5f, -0.5f, -0.5f, colors[2][0] , colors[2][1], colors[2][2],
-                -0.5f, -0.5f,  0.5f, colors[2][0] , colors[2][1], colors[2][2],
-                -0.5f,  0.5f,  0.5f, colors[2][0] , colors[2][1], colors[2][2],
+                // 0.5f,  0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
+                // 0.5f,  0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
+                // 0.5f, -0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
+                // 0.5f, -0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
+                // 0.5f, -0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
+                // 0.5f,  0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
 
-                0.5f,  0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                0.5f,  0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                0.5f, -0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                0.5f, -0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                0.5f, -0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                0.5f,  0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
+                // -0.5f, -0.5f, -0.5f,colors[4][0] , colors[4][1], colors[4][2],
+                // 0.5f, -0.5f, -0.5f, colors[4][0] , colors[4][1], colors[4][2],
+                // 0.5f, -0.5f,  0.5f, colors[4][0] , colors[4][1], colors[4][2],
+                // 0.5f, -0.5f,  0.5f, colors[4][0] , colors[4][1], colors[4][2],
+                // -0.5f, -0.5f,  0.5f,colors[4][0] , colors[4][1], colors[4][2],
+                // -0.5f, -0.5f, -0.5f,colors[4][0] , colors[4][1], colors[4][2],
 
-                -0.5f, -0.5f, -0.5f,colors[4][0] , colors[4][1], colors[4][2],
-                0.5f, -0.5f, -0.5f, colors[4][0] , colors[4][1], colors[4][2],
-                0.5f, -0.5f,  0.5f, colors[4][0] , colors[4][1], colors[4][2],
-                0.5f, -0.5f,  0.5f, colors[4][0] , colors[4][1], colors[4][2],
-                -0.5f, -0.5f,  0.5f,colors[4][0] , colors[4][1], colors[4][2],
-                -0.5f, -0.5f, -0.5f,colors[4][0] , colors[4][1], colors[4][2],
-
-                -0.5f,  0.5f, -0.5f,colors[5][0] , colors[5][1], colors[5][2],
-                0.5f,  0.5f, -0.5f, colors[5][0] , colors[5][1], colors[5][2],
-                0.5f,  0.5f,  0.5f, colors[5][0] , colors[5][1], colors[5][2],
-                0.5f,  0.5f,  0.5f, colors[5][0] , colors[5][1], colors[5][2],
-                -0.5f,  0.5f,  0.5f,colors[5][0] , colors[5][1], colors[5][2],
-                -0.5f,  0.5f, -0.5f,colors[5][0] , colors[5][1], colors[5][2],
+                -0.5f,  0.5f, -0.5f,colors[2][0] , colors[2][1], colors[2][2],
+                0.5f,  0.5f, -0.5f, colors[2][0] , colors[2][1], colors[2][2],
+                0.5f,  0.5f,  0.5f, colors[2][0] , colors[2][1], colors[2][2],
+                0.5f,  0.5f,  0.5f, colors[2][0] , colors[2][1], colors[2][2],
+                -0.5f,  0.5f,  0.5f,colors[2][0] , colors[2][1], colors[2][2],
+                -0.5f,  0.5f, -0.5f,colors[2][0] , colors[2][1], colors[2][2],
             };
     indices = {
         0 , 1 , 2 ,
@@ -102,7 +104,9 @@ void Cube::setPos(float x, float y, float z) {
     pos[2] = z;
 }
 
+
 void Cube::render() {
+    
     glBindVertexArray(vaoID);
     glDrawArrays(GL_TRIANGLES,0,vertices.size() / 6);
 }

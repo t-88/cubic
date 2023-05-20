@@ -83,9 +83,20 @@ int main(){
 
 
 		ImGui::Begin("Sup first time using imgui");
-			ImGui::Text("Hello there man!");
 			ImGui::Checkbox("exit",&isDone);
-			ImGui::SliderFloat("pos",&rotate_angle,0,360);
+
+			ImGui::Checkbox("R",&selectR);
+			ImGui::Checkbox("L",&selectL);
+			ImGui::Checkbox("U",&selectU);
+			ImGui::SliderFloat("rotateR",&rotateR,0,360);
+			ImGui::SliderFloat("rotateL",&rotateL,0,360);
+			ImGui::SliderFloat("rotateU",&rotateU,0,360);
+
+
+
+
+			ImGui::SliderFloat("rotateX",&rotate_angleX,0,360);
+			ImGui::SliderFloat("rotateY",&rotate_angleY,0,360);
 			ImGui::SliderFloat("cube x",&cube_x,-10,10);
 			ImGui::SliderFloat("cube y",&cube_y,-10,10);
 			ImGui::SliderFloat("cube z",&cube_z,-10,10);
