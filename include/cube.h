@@ -7,8 +7,10 @@
 class Cube
 {
 private:
-   std::vector<float> vertices;
-   std::vector<uint32_t> indices;
+    std::vector<float> vertices;
+    std::vector<uint32_t> indices;
+    bool colorsChanged = false;
+
    
    
     uint32_t vaoID;
@@ -16,18 +18,21 @@ private:
     uint32_t eboID;
 public:
    float pos[3];
-    
+    std::vector<std::vector<float>> colors;
 
 
-    Cube(float _colors[3][3]);
+
+    Cube(std::vector<std::vector<float>>);
     ~Cube();
 
     void setPos(float x, float y, float z);
+    void setColor(std::vector<std::vector<float>> colors);
     void render();
     void clean();
 };
 
-Cube::Cube(float colors[3][3]) {
+Cube::Cube(std::vector<std::vector<float>> _colors) {
+    colors = _colors;
     vertices = {
                 // -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
                 // 0.5f, -0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
@@ -103,11 +108,23 @@ void Cube::setPos(float x, float y, float z) {
     pos[1] = y;
     pos[2] = z;
 }
+void Cube::setColor(std::vector<std::vector<float>> _colors) {
+    colors = _colors;
+    for (size_t ci = 0; ci < 3; ci++) {
+        for (size_t i = 0; i < 6; i++) {
+            vertices[3 + 6 * i + 0 + 36 * ci] = colors[ci][0];
+            vertices[3 + 6 * i + 1 + 36 * ci] = colors[ci][1];
+            vertices[3 + 6 * i + 2 + 36 * ci] = colors[ci][2];
+        }
+    }
 
+    glBindBuffer(GL_ARRAY_BUFFER,vboID);
+    glBufferData(GL_ARRAY_BUFFER,vertices.size() * sizeof(float),vertices.data(),GL_STATIC_DRAW);
+}
 
 void Cube::render() {
     
-    glBindVertexArray(vaoID);
+    glBindVertexArray(vaoID);   
     glDrawArrays(GL_TRIANGLES,0,vertices.size() / 6);
 }
 
