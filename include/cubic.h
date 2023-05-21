@@ -238,11 +238,67 @@ public:
 
     void F() {
         printf("F\n");
+        int order[] = {0 , 2 , 3 ,1}; 
+        std::vector<std::vector<std::vector<float>>> colors = {
+            {cubes[order[0]].colors[2],cubes[order[0]].colors[0],cubes[order[0]].colors[1]},
+            {cubes[order[1]].colors[2],cubes[order[1]].colors[0],cubes[order[1]].colors[1]},
+            {cubes[order[2]].colors[2],cubes[order[2]].colors[0],cubes[order[2]].colors[1]},
+            {cubes[order[3]].colors[0],cubes[order[3]].colors[1],cubes[order[3]].colors[2]},
+        };
+        std::vector<std::vector<float>> tmpCol = colors[0];
+        for(int i = 0; i < 3 ; i++) {
+            cubes[order[i]].setColor(colors[i + 1]);            
+        }
+        cubes[order[3]].setColor(tmpCol);          
     }
     void F_inv() {
         printf("F_inv\n");
+        int order[] = {0 , 1 , 3 ,2}; 
+        std::vector<std::vector<std::vector<float>>> colors = {
+            {cubes[order[0]].colors[1],cubes[order[0]].colors[2],cubes[order[0]].colors[0]},
+            {cubes[order[1]].colors[1],cubes[order[1]].colors[2],cubes[order[1]].colors[0]},
+            {cubes[order[2]].colors[0],cubes[order[2]].colors[1],cubes[order[2]].colors[2]},
+            {cubes[order[3]].colors[1],cubes[order[3]].colors[2],cubes[order[3]].colors[0]},
+        };
+        std::vector<std::vector<float>> tmpCol = colors[0];
+        for(int i = 0; i < 3 ; i++) {
+            cubes[order[i]].setColor(colors[i + 1]);            
+        }
+        cubes[order[3]].setColor(tmpCol);          
     }
     
+
+    void B() {
+        printf("B\n");
+        int order[] = {4 , 5 ,7 ,6}; 
+        std::vector<std::vector<std::vector<float>>> colors = {
+            {cubes[order[0]].colors[0],cubes[order[0]].colors[1],cubes[order[0]].colors[2]},
+            {cubes[order[1]].colors[2],cubes[order[1]].colors[0],cubes[order[1]].colors[1]},
+            {cubes[order[2]].colors[2],cubes[order[2]].colors[0],cubes[order[2]].colors[1]},
+            {cubes[order[3]].colors[2],cubes[order[3]].colors[0],cubes[order[3]].colors[1]},
+        };
+        std::vector<std::vector<float>> tmpCol = colors[0];
+        for(int i = 0; i < 3 ; i++) {
+            cubes[order[i]].setColor(colors[i + 1]);            
+        }
+        cubes[order[3]].setColor(tmpCol);            
+    }
+    void B_inv() {
+        printf("B_inv\n");
+        int order[] = {4 , 6 ,7 ,5}; 
+        std::vector<std::vector<std::vector<float>>> colors = {
+            {cubes[order[0]].colors[1],cubes[order[0]].colors[2],cubes[order[0]].colors[0]},
+            {cubes[order[1]].colors[0],cubes[order[1]].colors[1],cubes[order[1]].colors[2]},
+            {cubes[order[2]].colors[1],cubes[order[2]].colors[2],cubes[order[2]].colors[0]},
+            {cubes[order[3]].colors[1],cubes[order[3]].colors[2],cubes[order[3]].colors[0]},
+        };
+        std::vector<std::vector<float>> tmpCol = colors[0];
+        for(int i = 0; i < 3 ; i++) {
+            cubes[order[i]].setColor(colors[i + 1]);            
+        }
+        cubes[order[3]].setColor(tmpCol);          
+    }
+
     void input(GLFWwindow* window) {
 		if(glfwGetKey(window,GLFW_KEY_UP) == GLFW_PRESS) {
             rotateX += 1;
@@ -294,7 +350,15 @@ public:
         else if(glfwGetKey(window,GLFW_KEY_G) == GLFW_PRESS && !once) {
             once = true;
             F_inv();
-        }                                     
+        }            
+        else if(glfwGetKey(window,GLFW_KEY_B) == GLFW_PRESS && !once) {
+            once = true;
+            B();
+        }    
+        else if(glfwGetKey(window,GLFW_KEY_V) == GLFW_PRESS && !once) {
+            once = true;
+            B_inv();
+        }                    
         else if(   glfwGetKey(window,GLFW_KEY_R) == GLFW_RELEASE 
                 && glfwGetKey(window,GLFW_KEY_E) == GLFW_RELEASE 
                 && glfwGetKey(window,GLFW_KEY_L) == GLFW_RELEASE
@@ -305,6 +369,8 @@ public:
                 && glfwGetKey(window,GLFW_KEY_S) == GLFW_RELEASE
                 && glfwGetKey(window,GLFW_KEY_F) == GLFW_RELEASE
                 && glfwGetKey(window,GLFW_KEY_G) == GLFW_RELEASE
+                && glfwGetKey(window,GLFW_KEY_B) == GLFW_RELEASE
+                && glfwGetKey(window,GLFW_KEY_V) == GLFW_RELEASE
                 ) {
             if(once && delayCounter < delayMax) {
                 delayCounter += glfwGetTime() - delayOffset;
@@ -327,6 +393,11 @@ public:
             model = glm::translate(model,glm::vec3(center)); 
                 model = glm::rotate(model,glm::radians(rotateX),glm::vec3(1.f,0.f,0.f));
                 model = glm::rotate(model,glm::radians(rotateY),glm::vec3(0.f,1.f,0.f));
+
+                std::set a = {0,2,4,6};
+                if(a.count(i)) {
+                    model = glm::rotate(model,glm::radians(rotate_angleX),glm::vec3(0.f,1.f,0.f));
+                }
             model = glm::translate(model,glm::vec3(-center)); 
 
 
