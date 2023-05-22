@@ -23,12 +23,13 @@ int main(){
     glfwMakeContextCurrent(window);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+
 	glViewport(0, 0, 800, 600);
 
 
 
 
-	Shader shader = Shader("shader/defualt.shader");
+	Shader shader = Shader("shader/default.shader");
 	// Cube cube = Cube();
 	Cubic cube = Cubic(2);
 
