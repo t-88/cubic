@@ -28,7 +28,7 @@ int main(){
 
 
 
-	Shader shader = Shader("shader/white.shader");
+	Shader shader = Shader("shader/defualt.shader");
 	// Cube cube = Cube();
 	Cubic cube = Cubic(2);
 

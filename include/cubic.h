@@ -46,6 +46,8 @@ enum Operation {
     op_B_inv,
     op_F,
     op_F_inv,
+    op_D,
+    op_D_inv,    
 };
 
 
@@ -63,7 +65,11 @@ private:
     float rotD = 0;
     float rotF = 0;
     float rotB = 0;
-    float currRotX = -90.f;
+
+    float rotAxis[3] = {0.f,0.f,0.f}; 
+    float currRot = 0.f;
+
+    float currRotX = 0;
     float currRotY = 0.f;
     float start , curr;
     float dur = 0.2;
@@ -138,44 +144,35 @@ public:
     }
 
     void after_anim() {
-        switch (operation)
-        {
+        switch (operation) {
             case op_R:  R(); break;
             case op_R_inv:  R_inv(); break; 
             case op_L:  L(); break;
             case op_L_inv:  L_inv(); break; 
             case op_U:  U(); break;
             case op_U_inv:  U_inv(); break; 
+            case op_D:  D(); break;
+            case op_D_inv:  D_inv(); break;             
             case op_B:  B(); break;
             case op_B_inv:  B_inv(); break; 
             case op_F:  F(); break;
             case op_F_inv:  F_inv(); break; 
         }
     }
-    void init_anim(int p[4],enum Operation op) {
+    void init_anim(int p[4],Operation op,int axis,int inv = 1) {
         if(animate) return;
-        switch (operation)
-        {
-            case op_R:  
-                currRotX = rotR;
-                rotEnd = currRotX - 90.f;
-            break;
-            case op_R_inv:   break; 
-            case op_L:   break;
-            case op_L_inv:   break; 
-            case op_U:   break;
-            case op_U_inv:   break; 
-            case op_B:   break;
-            case op_B_inv:   break; 
-            case op_F:   break;
-            case op_F_inv:   break; 
+        switch (axis) {
+            case 0:  rotAxis[0] = -inv; rotAxis[1] = 0; rotAxis[2] = 0; break;
+            case 1:  rotAxis[0] = 0; rotAxis[1] = -inv; rotAxis[2] = 0; break;
+            case 2:  rotAxis[0] = 0; rotAxis[1] = 0; rotAxis[2] = -inv; break;
         }
-        
+
         animate = true;
         start = glfwGetTime();
-        operation = op;
         curr = 0;
 
+        operation = op;
+        
         parts.clear();
         for(int i = 0; i < 4 ; i++)
             parts.insert(p[i]);
@@ -184,22 +181,29 @@ public:
     void update_anim() {
         if(! animate) return;
         curr = glfwGetTime() - start;
-        switch (operation)
-        {
-            case op_R:  currRotX = rotR + ((rotEnd - rotR) * curr/dur);  break;
-            case op_R_inv:  R_inv(); break;
-            case op_L:  L(); break;
-            case op_L_inv:  L_inv(); break; 
-            case op_U:  U(); break;
-            case op_U_inv:  U_inv(); break; 
-            case op_B:  B(); break;
-            case op_B_inv:  B_inv(); break; 
-            case op_F:  F(); break;
-            case op_F_inv:  F_inv(); break; 
-        }        
+
+        currRot = 90.f * curr/dur;
+        // switch (operation)
+        // {
+        //     case op_L_inv: 
+        //     case op_R:  currRotX = -90.f * curr/dur;  break;
+            
+        //     case op_L:  
+        //     case op_R_inv:  currRotX =  90.f  * curr/dur;  break;
+
+        //     case op_U:  currRotY =  -90.f  * curr/dur; break;
+        //     case op_U_inv:  currRotY = 90.f  * curr/dur; break; 
+            
+            
+        //     case op_B:  B(); break;
+        //     case op_B_inv:  B_inv(); break; 
+        //     case op_F:  currRotZ =  -90.f  * curr/dur; break;
+        //     case op_F_inv:  currRotZ =  -90.f  * curr/dur; break; 
+        // }        
         printf("%f %f %f\n",dur,curr,currRotX);
         if(curr >= dur) {
             animate = false;
+            currRot = 0;
             parts.clear();
             after_anim();
         }
@@ -229,18 +233,17 @@ public:
     
     void L()     {
         printf("L \n");
-        int Rp[] = {2 , 3 ,7 , 6 }; // 2 -> 3 -> 7 -> 6
+
+        int Rp[] = {2 , 6 ,7 , 3 }; // 2 -> 6 -> 7 -> 2
         std::vector<std::vector<float>> tmp = cubes[Rp[0]].colors;
         for(int i = 0; i < 3 ; i++) {
             cubes[Rp[i]].setColor(cubes[Rp[i + 1]].colors);            
         }
         cubes[Rp[3]].setColor(tmp);
-    
     }
     void L_inv() {
         printf("L_inv\n");
-
-        int Rp[] = {2 , 6 ,7 , 3 }; // 2 -> 6 -> 7 -> 2
+  int Rp[] = {2 , 3 ,7 , 6 }; // 2 -> 3 -> 7 -> 6
         std::vector<std::vector<float>> tmp = cubes[Rp[0]].colors;
         for(int i = 0; i < 3 ; i++) {
             cubes[Rp[i]].setColor(cubes[Rp[i + 1]].colors);            
@@ -390,52 +393,66 @@ public:
 
 		if(glfwGetKey(window,GLFW_KEY_R) == GLFW_PRESS && !once) {
             once = true;
-            int Rp[] = {0 , 1 ,5 , 4 };
-            init_anim(Rp,op_R);            
+            int Rp[] = {0 , 1 ,5 , 4};
+            
+            init_anim(Rp,op_R,0);            
         }
         else if(glfwGetKey(window,GLFW_KEY_E) == GLFW_PRESS && !once) {
             once = true;
-            R_inv();
+            int Rp[] = {0 , 4 , 5 , 1 }; // 0 -> 4 -> 5 -> 1
+            init_anim(Rp,op_R_inv,0,-1);            
         }
         else if(glfwGetKey(window,GLFW_KEY_L) == GLFW_PRESS && !once) {
             once = true;
-            L();
+            int Rp[] = {2 , 3 ,7 , 6 }; // 2 -> 3 -> 7 -> 6
+            init_anim(Rp,op_L,0,-1);            
         }
         else if(glfwGetKey(window,GLFW_KEY_K) == GLFW_PRESS && !once) {
             once = true;
-            L_inv();
+            int Rp[] = {2 , 3 ,7 , 6 }; // 2 -> 3 -> 7 -> 6
+
+            init_anim(Rp,op_L_inv,0);            
         }
         else if(glfwGetKey(window,GLFW_KEY_U) == GLFW_PRESS && !once) {
             once = true;
-            U();
+            int order[] = {0 , 4 , 6 ,2}; // 0 -> 4 -> 6 -> 2 -> 0
+            init_anim(order,op_U,1);            
         }   
         else if(glfwGetKey(window,GLFW_KEY_Y) == GLFW_PRESS && !once) {
             once = true;
-            U_inv();
+            int order[] = {0 , 4 , 6 ,2}; // 0 -> 4 -> 6 -> 2 -> 0
+            init_anim(order,op_U_inv,1,-1);            
         }   
         else if(glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS && !once) {
             once = true;
-            D();
+            int Rp[] = {1 , 3 ,5 , 7 }; // 2 -> 3 -> 7 -> 6
+            init_anim(Rp,op_D,1);            
         }    
         else if(glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS && !once) {
             once = true;
-            D_inv();
+            int Rp[] = {1 , 3 ,5 , 7}; // 2 -> 3 -> 7 -> 6
+            init_anim(Rp,op_D_inv,1,-1);            
         }        
         else if(glfwGetKey(window,GLFW_KEY_F) == GLFW_PRESS && !once) {
+            int order[] = {0 , 1 , 2 ,3};
+            init_anim(order,op_F,2);            
+
             once = true;
-            F();
         }        
         else if(glfwGetKey(window,GLFW_KEY_G) == GLFW_PRESS && !once) {
+            int order[] = {0 , 1 , 2 ,3};
+            init_anim(order,op_F_inv,2,-1);            
             once = true;
-            F_inv();
         }            
         else if(glfwGetKey(window,GLFW_KEY_B) == GLFW_PRESS && !once) {
             once = true;
-            B();
+            int order[] = {4 , 5 , 6 ,7};
+            init_anim(order,op_B,2,-1); 
         }    
         else if(glfwGetKey(window,GLFW_KEY_V) == GLFW_PRESS && !once) {
             once = true;
-            B_inv();
+            int order[] = {4 , 5 , 6 ,7};
+            init_anim(order,op_B_inv,2); 
         }                    
         else if(   glfwGetKey(window,GLFW_KEY_R) == GLFW_RELEASE 
                 && glfwGetKey(window,GLFW_KEY_E) == GLFW_RELEASE 
@@ -474,10 +491,18 @@ public:
                     model = glm::rotate(model,glm::radians(rotateX),glm::vec3(1.f,0.f,0.f));
                     model = glm::rotate(model,glm::radians(rotateY),glm::vec3(0.f,1.f,0.f));
 
+                if(animate) {
+                    if(parts.count(i)) {
+                        model = glm::rotate(model,glm::radians(currRot),glm::vec3(rotAxis[0],rotAxis[1],rotAxis[2]));
+                        // model = glm::rotate(model,glm::radians(currRotX),glm::vec3(1.f,0.f,0.f));
+                        // model = glm::rotate(model,glm::radians(currRotY),glm::vec3(0.f,1.f,0.f));
+                        // model = glm::rotate(model,glm::radians(currRotZ),glm::vec3(0.f,0.f,1.f));
+                    }
+                }
 
-                if(parts.count(i)) {
-                    model = glm::rotate(model,glm::radians(currRotX),glm::vec3(1.f,0.f,0.f));
-                    model = glm::rotate(model,glm::radians(currRotY),glm::vec3(0.f,1.f,0.f));
+                std::set<int> order = {0 , 1 , 2 ,3};
+                if(order.count(i)) {
+                    model = glm::rotate(model,glm::radians(rotate_angleX),glm::vec3(0.f,0.f,1.f));
                 }
             model = glm::translate(model,glm::vec3(-center)); 
 
