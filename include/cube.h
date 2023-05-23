@@ -10,22 +10,16 @@ private:
     std::vector<float> vertices;
     std::vector<uint32_t> indices;
     bool colorsChanged = false;
-
-   
    
     uint32_t vaoID;
     uint32_t vboID;
     uint32_t eboID;
 public:
-   float pos[3];
     std::vector<std::vector<float>> colors;
-
-
 
     Cube(std::vector<std::vector<float>>);
     ~Cube();
 
-    void setPos(float x, float y, float z);
     void setColor(std::vector<std::vector<float>> colors);
     void render();
     void clean();
@@ -34,13 +28,6 @@ public:
 Cube::Cube(std::vector<std::vector<float>> _colors) {
     colors = _colors;
     vertices = {
-                // -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
-                // 0.5f, -0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
-                // 0.5f,  0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
-                // 0.5f,  0.5f, -0.5f,  colors[0][0] , colors[0][1], colors[0][2],
-                // -0.5f,  0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
-                // -0.5f, -0.5f, -0.5f, colors[0][0] , colors[0][1], colors[0][2],
-
                 -0.5f, -0.5f,  0.5f, colors[0][0] , colors[0][1], colors[0][2],
                 0.5f, -0.5f,  0.5f,  colors[0][0] , colors[0][1], colors[0][2],
                 0.5f,  0.5f,  0.5f,  colors[0][0] , colors[0][1], colors[0][2],
@@ -54,20 +41,6 @@ Cube::Cube(std::vector<std::vector<float>> _colors) {
                 -0.5f, -0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
                 -0.5f, -0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
                 -0.5f,  0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
-
-                // 0.5f,  0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                // 0.5f,  0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                // 0.5f, -0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                // 0.5f, -0.5f, -0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                // 0.5f, -0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
-                // 0.5f,  0.5f,  0.5f, colors[3][0] , colors[3][1], colors[3][2],
-
-                // -0.5f, -0.5f, -0.5f,colors[4][0] , colors[4][1], colors[4][2],
-                // 0.5f, -0.5f, -0.5f, colors[4][0] , colors[4][1], colors[4][2],
-                // 0.5f, -0.5f,  0.5f, colors[4][0] , colors[4][1], colors[4][2],
-                // 0.5f, -0.5f,  0.5f, colors[4][0] , colors[4][1], colors[4][2],
-                // -0.5f, -0.5f,  0.5f,colors[4][0] , colors[4][1], colors[4][2],
-                // -0.5f, -0.5f, -0.5f,colors[4][0] , colors[4][1], colors[4][2],
 
                 -0.5f,  0.5f, -0.5f,colors[2][0] , colors[2][1], colors[2][2],
                 0.5f,  0.5f, -0.5f, colors[2][0] , colors[2][1], colors[2][2],
@@ -103,11 +76,7 @@ Cube::Cube(std::vector<std::vector<float>> _colors) {
     glBindBuffer(GL_ARRAY_BUFFER,0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
 }
-void Cube::setPos(float x, float y, float z) {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-}
+
 void Cube::setColor(std::vector<std::vector<float>> _colors) {
     colors = _colors;
     for (size_t ci = 0; ci < 3; ci++) {
@@ -123,7 +92,6 @@ void Cube::setColor(std::vector<std::vector<float>> _colors) {
 }
 
 void Cube::render() {
-    
     glBindVertexArray(vaoID);   
     glDrawArrays(GL_TRIANGLES,0,vertices.size() / 6);
 }

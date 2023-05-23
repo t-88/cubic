@@ -5,9 +5,6 @@
     float cube_y = 0;
     float cube_z = 0;
 
-    bool selectR = false;
-    bool selectL = false;
-    bool selectU = false;
     float rotateU = 0.f;
     float rotateL = 0.f;
     float rotateR = 0.f;
