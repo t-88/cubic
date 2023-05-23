@@ -340,4 +340,5 @@ CMakeFiles/main.dir/main.cpp.o: \
  /home/tee/Desktop/Projects/c++/cubic/include/cube.h \
  /home/tee/Desktop/Projects/c++/cubic/./shared.h \
  /home/tee/Desktop/Projects/c++/cubic/include/shader.h \
- /home/tee/Desktop/Projects/c++/cubic/shared.h
+ /home/tee/Desktop/Projects/c++/cubic/shared.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h

@@ -36,7 +36,7 @@ Cube::Cube(std::vector<std::vector<float>> _colors) {
                 -0.5f, -0.5f,  0.5f, colors[0][0] , colors[0][1], colors[0][2],
 
                 -0.5f,  0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],
-                -0.5f,  0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
+                -0.5f   ,  0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
                 -0.5f, -0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
                 -0.5f, -0.5f, -0.5f, colors[1][0] , colors[1][1], colors[1][2],
                 -0.5f, -0.5f,  0.5f, colors[1][0] , colors[1][1], colors[1][2],

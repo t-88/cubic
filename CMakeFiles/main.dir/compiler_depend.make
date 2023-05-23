@@ -1546,8 +1546,11 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   include/cube.h \
   shared.h \
   include/shader.h \
-  shared.h
+  shared.h \
+  include/rectangle.h
 
+
+include/rectangle.h:
 
 /usr/include/c++/11/bits/basic_string.tcc:
 

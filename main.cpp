@@ -8,13 +8,14 @@
 #include "cubic.h"
 #include "shader.h"
 #include "shared.h"
+#include "rectangle.h"
 
 
 
+static Rectangle rect;
 
 
-const float WIDTH  = 800.f;
-const float HEIGHT = 600.f;
+
 
 
 
@@ -36,6 +37,8 @@ void render_imGUI(Cubic* cube) {
 			printf("asasd\n");
 			cube->activate_random_shuffel_mode();
 		}
+
+		ImGui::SliderFloat("x",&rect.x,-100.f,100.f);
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -68,6 +71,7 @@ int main(){
 	init_imGUI(window);
 
 	Shader shader = Shader("shader/default.shader");
+	Shader shader2D = Shader("shader/2d.shader");
 
 	glm::mat4 proj = glm::perspective(glm::radians(45.f),WIDTH / HEIGHT,1.f,100.f);
 	glm::mat4 view = glm::mat4(1.f);
@@ -75,6 +79,12 @@ int main(){
 	int projLoc = glGetUniformLocation(shader.id,"proj");
 	int viewLoc = glGetUniformLocation(shader.id,"view");
 
+	glm::mat4 orth = glm::ortho(0.0f, WIDTH, HEIGHT, 0.0f,  -1.f , 1.f );
+	int orthLoc = glGetUniformLocation(shader2D.id,"orth");
+
+
+
+	rect = Rectangle(WIDTH - 100,0,100,100);
 
 
 
@@ -89,13 +99,17 @@ int main(){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-
+		shader.activate(); 
 		glUniformMatrix4fv(projLoc,1,GL_FALSE,&proj[0][0]);
 		glUniformMatrix4fv(viewLoc,1,GL_FALSE,&view[0][0]);
-
-
 		cube.render(shader,window);
 		render_imGUI(&cube);
+
+		shader2D.activate(); 
+		glUniformMatrix4fv(orthLoc,1,GL_FALSE,&orth	[0][0]);
+		rect.render(shader2D);
+
+
 
 
 
@@ -105,6 +119,8 @@ int main(){
 
 	
 	cube.clean();
+	rect.clean();
+
 	clean_imGUI();
 	glfwTerminate();
 
