@@ -18,6 +18,9 @@ public:
 
     Rectangle();
     Rectangle(float x , float y  ,float w, float h);
+
+    void setColor(float r, float g , float b);
+
     void render(Shader shader);
     
     void clean();
@@ -30,10 +33,10 @@ Rectangle::Rectangle(float _x , float _y,float _w , float _h) {
     x = _x; y = _y;
 
     vertices = {
-        x, y ,  0.f , 0.f,1.f,1.f, 
-        x + w, y  , 0.f , 1.f,1.f,1.f, 
+        x, y ,  0.f ,        1.f,1.f,1.f, 
+        x + w, y  , 0.f ,    1.f,1.f,1.f, 
         x + w, y + h , 0.f , 1.f,1.f,1.f,
-        x, y + h ,  0.f , 1.f,1.f,1.f,
+        x, y + h ,  0.f ,    1.f,1.f,1.f,
     };
 
 
@@ -64,6 +67,19 @@ Rectangle::Rectangle(float _x , float _y,float _w , float _h) {
     glBindBuffer(GL_ARRAY_BUFFER,0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
 }
+
+void Rectangle::setColor(float r, float g , float b) {
+
+    for(int i = 0 ; i < 4 ; i++) {
+        vertices[6 * i + 3 + 0] = r;
+        vertices[6 * i + 3 + 1] = g;
+        vertices[6 * i + 3 + 2] = b;
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER,vbo);
+    glBufferData(GL_ARRAY_BUFFER,vertices.size() * sizeof(float),vertices.data(),GL_STATIC_DRAW);
+}
+
 
 void Rectangle::render(Shader shader) {
     

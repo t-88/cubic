@@ -1545,6 +1545,7 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   /usr/include/c++/11/bits/stl_relops.h \
   include/cube.h \
   shared.h \
+  include/rectangle.h \
   include/shader.h \
   shared.h \
   include/rectangle.h

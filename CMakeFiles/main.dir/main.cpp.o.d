@@ -339,6 +339,7 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
  /home/tee/Desktop/Projects/c++/cubic/include/cube.h \
  /home/tee/Desktop/Projects/c++/cubic/./shared.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h \
  /home/tee/Desktop/Projects/c++/cubic/include/shader.h \
  /home/tee/Desktop/Projects/c++/cubic/shared.h \
  /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h

@@ -8,6 +8,7 @@
 #include "cube.h"
 #include "shader.h"
 #include "shared.h"
+#include "rectangle.h"
 
 
 #define RED {1.f,0.f,0.f}
@@ -77,6 +78,7 @@ private:
     float rotateY = 0;
     float rotateZ = 0;
 
+    bool updateRender2d = false;
 
     // sides => R L U D B F
     std::vector<std::array<int,4>> orientation = {
@@ -89,6 +91,8 @@ private:
     };
         
     glm::vec3 center = glm::vec3(0);
+
+    std::vector<Rectangle> rects;
 
 public:
     Cubic(int _size);
@@ -116,6 +120,7 @@ public:
 
     void input(GLFWwindow* window);
     void render(Shader shader,GLFWwindow* window);
+    void render2D(Shader shader,GLFWwindow* window);
     void clean();
 };
 
@@ -140,7 +145,35 @@ Cubic::Cubic(int _size) {
     for (int i = 0; i < poses.size(); i++)
         center += glm::vec3(poses[i][0],poses[i][1],poses[i][2]); 
     center /= poses.size();
+
+
+    int w = 20;  
+    int h = 20; 
+    int off = 5;
+
+    int xOff = 2 * w + off;  
+    int yOff = 0; 
+
+    for(int i = 0; i < 4; i++) {
+        for(int x = 1; x >= 0; x--) 
+            for(int y = 0; y < 2; y++) 
+                rects.push_back(Rectangle(w * x + xOff,h * y + yOff,w,h));
+        yOff += 2 * h + off;
+    }
+
+    xOff += 2 * w + off;
+    yOff = 2 * h + off;
+    for(int x = 1; x >= 0;  x--) 
+        for(int y = 0; y < 2; y++) 
+            rects.push_back(Rectangle(w * x + xOff,h * y + yOff,w,h));
+
+    xOff = 0;
+    for(int x = 1; x >= 0; x--) 
+        for(int y = 0; y < 2; y++) 
+            rects.push_back(Rectangle(w * x + xOff,h * y + yOff,w,h));
 }
+
+
 
 
 
@@ -160,6 +193,7 @@ void Cubic::after_anim() {
         case op_F:  F(); break;
         case op_F_inv:  F_inv(); break; 
     }
+    updateRender2d = true;
 }
 void Cubic::init_anim(std::array<int,4> p,Operation op,int axis,int inv) {
     if(animate) return;
@@ -289,7 +323,52 @@ void Cubic::render(Shader shader,GLFWwindow* window){
         cubes[i].render();
     }
 }
+void Cubic::render2D(Shader shader,GLFWwindow* window){
+    shader.activate();
 
+    if(updateRender2d) {
+        updateRender2d = true;
+
+        rects[0 * 4 + 0].setColor(cubes[4].colors[2][0],cubes[4].colors[2][1],cubes[4].colors[2][2]);
+        rects[0 * 4 + 1].setColor(cubes[5].colors[1][0],cubes[5].colors[1][1],cubes[5].colors[1][2]);
+        rects[0 * 4 + 2].setColor(cubes[6].colors[2][0],cubes[6].colors[2][1],cubes[6].colors[2][2]);
+        rects[0 * 4 + 3].setColor(cubes[7].colors[0][0],cubes[7].colors[0][1],cubes[7].colors[0][2]);
+
+        rects[1 * 4 + 0].setColor(cubes[5].colors[2][0],cubes[5].colors[2][1],cubes[5].colors[2][2]);
+        rects[1 * 4 + 1].setColor(cubes[1].colors[1][0],cubes[1].colors[1][1],cubes[1].colors[1][2]);
+        rects[1 * 4 + 2].setColor(cubes[7].colors[2][0],cubes[7].colors[2][1],cubes[7].colors[2][2]);
+        rects[1 * 4 + 3].setColor(cubes[3].colors[0][0],cubes[3].colors[0][1],cubes[3].colors[0][2]);
+
+        rects[2 * 4 + 0].setColor(cubes[0].colors[1][0],cubes[0].colors[1][1],cubes[0].colors[1][2]);
+        rects[2 * 4 + 1].setColor(cubes[1].colors[2][0],cubes[1].colors[2][1],cubes[1].colors[2][2]);
+        rects[2 * 4 + 2].setColor(cubes[2].colors[0][0],cubes[2].colors[0][1],cubes[2].colors[0][2]);
+        rects[2 * 4 + 3].setColor(cubes[3].colors[2][0],cubes[3].colors[2][1],cubes[3].colors[2][2]);
+
+        rects[3 * 4 + 0].setColor(cubes[4].colors[1][0],cubes[4].colors[1][1],cubes[4].colors[1][2]);
+        rects[3 * 4 + 1].setColor(cubes[0].colors[2][0],cubes[0].colors[2][1],cubes[0].colors[2][2]);
+        rects[3 * 4 + 2].setColor(cubes[6].colors[0][0],cubes[6].colors[0][1],cubes[6].colors[0][2]);
+        rects[3 * 4 + 3].setColor(cubes[2].colors[2][0],cubes[2].colors[2][1],cubes[2].colors[2][2]);
+
+
+
+        rects[4 * 4 + 0].setColor(cubes[4].colors[0][0],cubes[4].colors[0][1],cubes[4].colors[0][2]);
+        rects[4 * 4 + 1].setColor(cubes[5].colors[0][0],cubes[5].colors[0][1],cubes[5].colors[0][2]);
+        rects[4 * 4 + 2].setColor(cubes[0].colors[0][0],cubes[0].colors[0][1],cubes[0].colors[0][2]);
+        rects[4 * 4 + 3].setColor(cubes[1].colors[0][0],cubes[1].colors[0][1],cubes[1].colors[0][2]);
+
+
+        rects[5 * 4 + 0].setColor(cubes[2].colors[1][0],cubes[2].colors[1][1],cubes[2].colors[1][2]);
+        rects[5 * 4 + 1].setColor(cubes[3].colors[1][0],cubes[3].colors[1][1],cubes[3].colors[1][2]);
+        rects[5 * 4 + 2].setColor(cubes[6].colors[1][0],cubes[6].colors[1][1],cubes[6].colors[1][2]);
+        rects[5 * 4 + 3].setColor(cubes[7].colors[1][0],cubes[7].colors[1][1],cubes[7].colors[1][2]);
+    }
+
+    
+    
+    for(Rectangle rect: rects) {
+        rect.render(shader);
+    }
+}
 
 
 

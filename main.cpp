@@ -84,11 +84,14 @@ int main(){
 
 
 
-	rect = Rectangle(WIDTH - 100,0,100,100);
+	rect = Rectangle(WIDTH - 100,0,50,50);
+	rect.setColor(1,0,0);
 
 
+	shader2D.activate(); 
+	glUniformMatrix4fv(orthLoc,1,GL_FALSE,&orth	[0][0]);
 
-	shader.activate(); 
+
 	glEnable(GL_DEPTH_TEST);
 	while(!glfwWindowShouldClose(window)) {
 		if(glfwGetKey(window,GLFW_KEY_ESCAPE) == GLFW_PRESS) 
@@ -103,10 +106,10 @@ int main(){
 		glUniformMatrix4fv(projLoc,1,GL_FALSE,&proj[0][0]);
 		glUniformMatrix4fv(viewLoc,1,GL_FALSE,&view[0][0]);
 		cube.render(shader,window);
+		cube.render2D(shader2D,window);
 		render_imGUI(&cube);
 
 		shader2D.activate(); 
-		glUniformMatrix4fv(orthLoc,1,GL_FALSE,&orth	[0][0]);
 		rect.render(shader2D);
 
 
