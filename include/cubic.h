@@ -11,6 +11,11 @@
 #include "rectangle.h"
 
 
+#define DEBUG_OPS false
+
+
+
+
 #define RED {1.f,0.f,0.f}
 #define GREEN {0.f,1.f,0.f}
 #define BLUE {0.f,0.f,1.f}
@@ -18,25 +23,38 @@
 #define WHITE {1.f,1.f,1.f}
 #define ORANGE {1.f,0.65f,0.f}
 
-enum Operation {
-    op_R,
-    op_R_inv,
-    op_L,
-    op_L_inv,
-    op_U,
-    op_U_inv,
-    op_D,
-    op_D_inv,      
-    op_B,
-    op_B_inv,
-    op_F,
-    op_F_inv,
-};
+
+bool arr_equal(std::vector<std::vector<float>> arr1,std::vector<std::vector<float>> arr2) {
+    // takes colors and checks if they are the same
+    for(int i = 0; i < arr1.size(); i++) {
+        bool found = true;
+
+        for(int j = 0; j < arr2.size(); j++) {
+            bool checked = true;
+            found = false;
+            for(int x = 0; x < arr2[j].size(); x++) {
+                if(arr1[i][x] != arr2[j][x]) {
+                    checked = false;
+                    break;
+                } 
+            }
+            if(checked) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) return false;
+    }
+    return true;
+
+}
+
+
 
 class Cubic
 {
 private:
-    int size;
+    int size = 2;
     std::vector<Cube> cubes;
     int shuffelCounter = 20;
     bool randomShuffelMode = false;
@@ -52,6 +70,7 @@ private:
     Operation operation;
     float rotEnd = 0.f;
 
+
     std::vector<std::vector<std::vector<float>>> colors = { 
         {RED,GREEN,YELLOW},  
         {RED,WHITE,GREEN},
@@ -63,14 +82,12 @@ private:
         {YELLOW,ORANGE,BLUE},
         {BLUE,ORANGE,WHITE},
     };
-
-
     float cubeZoff = 8;
 
     // default rotations
-    float rotationsZ[8] = {0.f,0.f,0.f,0.f,0.f,0.f,0.f,0.f}; 
-    float rotationsX[8] = {0.f,90.f,0.f,90.f,270.f,180.f,270.f,180.f}; 
-    float rotationsY[8] = {90.f,90.f,0.f,0.f,90.f,90.f,0.f,0.f}; 
+
+
+
 
     
     std::vector<std::vector<float>> poses;
@@ -78,7 +95,7 @@ private:
     float rotateY = 0;
     float rotateZ = 0;
 
-    bool updateRender2d = false;
+    bool updateRender2d = true;
 
     // sides => R L U D B F
     std::vector<std::array<int,4>> orientation = {
@@ -91,11 +108,15 @@ private:
     };
         
     glm::vec3 center = glm::vec3(0);
-
     std::vector<Rectangle> rects;
 
 public:
+    std::vector<int> order = {0,1,2,3,4,5,6,7};
+
+
     Cubic(int _size);
+    Cubic();
+    void init();
 
     void after_anim();
     void init_anim(std::array<int,4> p,Operation op,int axis,int inv);
@@ -114,6 +135,9 @@ public:
     void B();
     void B_inv();
 
+
+
+    std::vector<int> do_op(Operation op,std::vector<int> pOrder);
     void random_shuffel();
     void activate_random_shuffel_mode();
    
@@ -124,14 +148,65 @@ public:
     void clean();
 };
 
+Cubic::Cubic() {
+    
+}
 
-Cubic::Cubic(int _size) {
-    size = _size;
+
+
+
+
+// animation rotations  
+void Cubic::after_anim() {
+    switch (operation) {
+        case op_R:  R(); break;
+        case op_R_inv:  R_inv(); break; 
+        case op_L:  L(); break;
+        case op_L_inv:  L_inv(); break; 
+        case op_U:  U(); break;
+        case op_U_inv:  U_inv(); break; 
+        case op_D:  D(); break;
+        case op_D_inv:  D_inv(); break;             
+        case op_B:  B(); break;
+        case op_B_inv:  B_inv(); break; 
+        case op_F:  F(); break;
+        case op_F_inv:  F_inv(); break; 
+    }
+    
+    
+    updateRender2d = true;
+    
+    
+    for(int i = 0; i < 8; i++) {
+        for(int j = 0; j < 8; j++) {
+            if(arr_equal(colors[i],cubes[j].colors)) {
+                order[i] = j;
+                break;
+            }
+        }
+    }
+
+
+
+
+
+    for(int i = 0; i < 8; i++) {
+        printf("%d ",order[i]);
+    }
+    printf("\n");
+
+
+}
+
+void Cubic::init() {
     int counter = 0;
+
     for(int z = 0; z < size; z++) {
+
         for(int x = 0; x < size; x++) {
             for(int y = 0; y < size; y++) {
                 Cube cube = Cube(colors[counter]);
+
                 std::vector<float> pos;
                 pos.push_back(0.5 - x);
                 pos.push_back(0.5 - y);
@@ -142,6 +217,8 @@ Cubic::Cubic(int _size) {
             }
         }
     }
+
+
     for (int i = 0; i < poses.size(); i++)
         center += glm::vec3(poses[i][0],poses[i][1],poses[i][2]); 
     center /= poses.size();
@@ -171,29 +248,6 @@ Cubic::Cubic(int _size) {
     for(int x = 1; x >= 0; x--) 
         for(int y = 0; y < 2; y++) 
             rects.push_back(Rectangle(w * x + xOff,h * y + yOff,w,h));
-}
-
-
-
-
-
-// animation rotations  
-void Cubic::after_anim() {
-    switch (operation) {
-        case op_R:  R(); break;
-        case op_R_inv:  R_inv(); break; 
-        case op_L:  L(); break;
-        case op_L_inv:  L_inv(); break; 
-        case op_U:  U(); break;
-        case op_U_inv:  U_inv(); break; 
-        case op_D:  D(); break;
-        case op_D_inv:  D_inv(); break;             
-        case op_B:  B(); break;
-        case op_B_inv:  B_inv(); break; 
-        case op_F:  F(); break;
-        case op_F_inv:  F_inv(); break; 
-    }
-    updateRender2d = true;
 }
 void Cubic::init_anim(std::array<int,4> p,Operation op,int axis,int inv) {
     if(animate) return;
@@ -279,25 +333,61 @@ void Cubic::random_shuffel() {
             shuffelCounter = 20;
             return;
         }
-        Operation ops[] = {
-            op_R,
-            op_R_inv,
-            op_L,
-            op_L_inv,
-            op_U,
-            op_U_inv,
-            op_D,
-            op_D_inv,      
-            op_B,
-            op_B_inv,
-            op_F,
-            op_F_inv,
-        };
+       
 
         int dirs[] = {1,-1,-1,1,1,-1,1,-1,-1,1,1,-1};
         int val = rand() % 12;
         init_anim(orientation[(int)ops[val]/2],ops[val],(int)ops[val]/4,dirs[val]);
     }
+}
+
+
+std::vector<int> Cubic::do_op(Operation op,std::vector<int> pOrder) {
+        std::vector<int> tmpOrder;
+        tmpOrder = order;
+        // for(int i = 0; i < order.size(); i++)  tmpOrder.push_back(order[i]);
+        std::vector<Cube> tmpCubes;
+        tmpCubes = cubes;
+        // for(int i = 0; i < cubes.size(); i++)  tmpCubes.push_back(cubes[i]);
+
+        // printf("size: %lu\n",order.size());
+
+        order = pOrder;
+        switch (op) {
+            case op_R:  R(); break;
+            case op_R_inv:  R_inv(); break; 
+            case op_L:  L(); break;
+            case op_L_inv:  L_inv(); break; 
+            case op_U:  U(); break;
+            case op_U_inv:  U_inv(); break; 
+            case op_D:  D(); break;
+            case op_D_inv:  D_inv(); break;             
+            case op_B:  B(); break;
+            case op_B_inv:  B_inv(); break; 
+            case op_F:  F(); break;
+            case op_F_inv:  F_inv(); break; 
+        }
+
+    for(int i = 0; i < 8; i++) {
+        for(int j = 0; j < 8; j++) {
+            if(arr_equal(colors[i],cubes[j].colors)) {
+                order[i] = j;
+                break;
+            }
+        }
+    }
+
+    std::vector<int> tmpOrder2 = order;
+    tmpOrder2 = order; 
+    // for(int i = 0; i < order.size(); i++)  tmpOrder2.push_back(order[i]);
+
+    order = tmpOrder;
+    for(int i = 0; i < cubes.size(); i++)  cubes[i].setColor(tmpCubes[i].colors);
+    // for(int i = 0; i < order.size(); i++)  order[i] = tmpOrder[i];
+    // tmpOrder.clear();
+    // tmpCubes.clear();
+    
+    return tmpOrder2;
 }
 
 
@@ -317,7 +407,6 @@ void Cubic::render(Shader shader,GLFWwindow* window){
         model = glm::translate(model,glm::vec3(-center)); 
         model = glm::translate(model,glm::vec3(poses[i][0],poses[i][1],poses[i][2]) + glm::vec3(cube_x,cube_y,cube_z)); 
         model = glm::rotate(model,glm::radians(rotationsX[i]),glm::vec3(1.f,0.f,0.f));
-        model = glm::rotate(model,glm::radians(rotationsZ[i]),glm::vec3(0.f,0.f,1.f));
         model = glm::rotate(model,glm::radians(rotationsY[i]),glm::vec3(0.f,1.f,0.f));
         glUniformMatrix4fv(glGetUniformLocation(shader.id, "model"), 1, GL_FALSE, &model[0][0]);
         cubes[i].render();
@@ -374,7 +463,7 @@ void Cubic::render2D(Shader shader,GLFWwindow* window){
 
 // applying rotations
 void Cubic::R() {
-    printf("R\n");  
+    if(DEBUG_OPS) printf("R\n");  
     int order[] = {0 , 1 ,5 , 4 };
     std::vector<std::vector<float>> tmp = cubes[order[0]].colors;
     for(int i = 0; i < 3 ; i++) {
@@ -383,7 +472,7 @@ void Cubic::R() {
     cubes[order[3]].setColor(tmp);
 }
 void Cubic::R_inv() {
-    printf("R_inv\n");
+    if(DEBUG_OPS) printf("R_inv\n");
     int order[] = {0 , 4 , 5 , 1 }; // 0 -> 4 -> 5 -> 1
     std::vector<std::vector<float>> tmp = cubes[order[0]].colors;
     for(int i = 0; i < 3 ; i++) {
@@ -393,7 +482,7 @@ void Cubic::R_inv() {
 }
 
 void Cubic::L()     {
-    printf("L \n");
+    if(DEBUG_OPS) printf("L \n");
     int order[] = {2 , 6 ,7 , 3 }; 
     std::vector<std::vector<float>> tmp = cubes[order[0]].colors;
     for(int i = 0; i < 3 ; i++) {
@@ -402,7 +491,7 @@ void Cubic::L()     {
     cubes[order[3]].setColor(tmp);
 }
 void Cubic::L_inv() {
-    printf("L_inv\n");
+    if(DEBUG_OPS) printf("L_inv\n");
     int order[] = {2 , 3 ,7 , 6 }; 
     std::vector<std::vector<float>> tmp = cubes[order[0]].colors;
     for(int i = 0; i < 3 ; i++) {
@@ -412,7 +501,7 @@ void Cubic::L_inv() {
 } 
     
 void Cubic::U() {
-    printf("U\n");  
+    if(DEBUG_OPS) printf("U\n");  
     int order[] = {0 , 4 , 6 ,2}; 
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[0],cubes[order[0]].colors[1],cubes[order[0]].colors[2]},
@@ -427,7 +516,7 @@ void Cubic::U() {
     cubes[order[3]].setColor(tmpCol);
 }     
 void Cubic::U_inv() {
-    printf("U_inv\n");
+    if(DEBUG_OPS) printf("U_inv\n");
     int order[] = {0 , 2 ,6 , 4 };
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[1],cubes[order[0]].colors[2],cubes[order[0]].colors[0]},
@@ -443,7 +532,7 @@ void Cubic::U_inv() {
 }
 
 void Cubic::D() {
-    printf("D\n");  
+    if(DEBUG_OPS) printf("D\n");  
     int order[] = {1 , 5 , 7 ,3}; // 1 -> 5 -> 7 -> 3 -> 1
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[1],cubes[order[0]].colors[2],cubes[order[0]].colors[0]},
@@ -460,7 +549,7 @@ void Cubic::D() {
  
 }
 void Cubic::D_inv() {
-    printf("D_inv\n");  
+    if(DEBUG_OPS) printf("D_inv\n");  
     int order[] = {1 , 3 , 7 ,5}; // 1 -> 3 -> 7 -> 5 -> 1
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[2],cubes[order[0]].colors[0],cubes[order[0]].colors[1]},
@@ -477,7 +566,7 @@ void Cubic::D_inv() {
 }    
     
 void Cubic::F() {
-    printf("F\n");
+    if(DEBUG_OPS) printf("F\n");
     int order[] = {0 , 2 , 3 ,1}; 
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[2],cubes[order[0]].colors[0],cubes[order[0]].colors[1]},
@@ -492,7 +581,7 @@ void Cubic::F() {
     cubes[order[3]].setColor(tmpCol);          
 }
 void Cubic::F_inv() {
-    printf("F_inv\n");
+    if(DEBUG_OPS) printf("F_inv\n");
     int order[] = {0 , 1 , 3 ,2}; 
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[1],cubes[order[0]].colors[2],cubes[order[0]].colors[0]},
@@ -508,7 +597,7 @@ void Cubic::F_inv() {
 }
     
 void Cubic::B() {
-    printf("B\n");
+    if(DEBUG_OPS) printf("B\n");
     int order[] = {4 , 5 ,7 ,6}; 
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[0],cubes[order[0]].colors[1],cubes[order[0]].colors[2]},
@@ -523,7 +612,7 @@ void Cubic::B() {
     cubes[order[3]].setColor(tmpCol);            
 }
 void Cubic::B_inv() {
-    printf("B_inv\n");
+    if(DEBUG_OPS) printf("B_inv\n");
     int order[] = {4 , 6 ,7 ,5}; 
     std::vector<std::vector<std::vector<float>>> colors = {
         {cubes[order[0]].colors[1],cubes[order[0]].colors[2],cubes[order[0]].colors[0]},

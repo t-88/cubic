@@ -1548,8 +1548,52 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   include/rectangle.h \
   include/shader.h \
   shared.h \
-  include/rectangle.h
+  include/rectangle.h \
+  include/solver.h \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/unordered_map \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/pstl/execution_defs.h \
+  include/generic_solver.h \
+  include/cubic.h \
+  include/solver.h
 
+
+include/generic_solver.h:
+
+/usr/include/c++/11/bits/enable_special_members.h:
+
+/usr/include/c++/11/bits/hashtable.h:
+
+/usr/include/c++/11/unordered_map:
+
+/usr/include/c++/11/bits/refwrap.h:
+
+/usr/include/c++/11/bits/invoke.h:
+
+/usr/include/c++/11/bits/uses_allocator.h:
+
+/usr/include/c++/11/tuple:
+
+/usr/include/c++/11/pstl/glue_algorithm_defs.h:
+
+include/solver.h:
 
 include/rectangle.h:
 
@@ -1562,6 +1606,8 @@ include/rectangle.h:
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
+
+/usr/include/c++/11/functional:
 
 /usr/include/linux/errno.h:
 
@@ -1693,6 +1739,8 @@ include/glm/ext/matrix_float4x3.hpp:
 
 include/glm/ext/matrix_double4x3_precision.hpp:
 
+/usr/include/c++/11/bits/uniform_int_dist.h:
+
 include/glm/detail/type_mat4x3.hpp:
 
 include/glm/ext/matrix_double4x2.hpp:
@@ -1731,7 +1779,13 @@ include/glm/ext/matrix_float2x4.hpp:
 
 include/glm/ext/matrix_double2x4_precision.hpp:
 
+/usr/include/c++/11/algorithm:
+
 include/glm/detail/type_mat2x4.inl:
+
+/usr/include/c++/11/bits/std_function.h:
+
+/usr/include/c++/11/bits/stl_tempbuf.h:
 
 include/glm/detail/type_mat2x4.hpp:
 
@@ -1788,6 +1842,8 @@ include/glm/ext/vector_uint2_precision.hpp:
 include/glm/detail/func_vector_relational.inl:
 
 include/glm/ext/vector_uint2.hpp:
+
+/usr/include/c++/11/bits/stl_algo.h:
 
 include/glm/ext/vector_int2.hpp:
 
@@ -2025,6 +2081,8 @@ include/glm/ext/vector_int4_precision.hpp:
 
 /usr/include/features.h:
 
+/usr/include/c++/11/typeinfo:
+
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/amxtileintrin.h:
@@ -2221,6 +2279,8 @@ include/glm/ext/vector_double4_precision.hpp:
 
 /usr/include/GL/glext.h:
 
+/usr/include/c++/11/bits/stl_heap.h:
+
 /usr/include/c++/11/bits/std_abs.h:
 
 include/glm/ext/vector_int2_precision.hpp:
@@ -2309,6 +2369,10 @@ include/glm/detail/func_exponential.inl:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/xsavecintrin.h:
 
+/usr/include/c++/11/pstl/execution_defs.h:
+
+/usr/include/c++/11/bits/algorithmfwd.h:
+
 include/glm/detail/type_mat4x2.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/xsavesintrin.h:
@@ -2332,6 +2396,8 @@ include/glm/detail/setup.hpp:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h:
 
 include/pch.h:
+
+/usr/include/c++/11/bits/unordered_map.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/tmmintrin.h:
 
@@ -2460,6 +2526,8 @@ include/imgui/imstb_truetype.h:
 include/glm/ext/vector_float2.hpp:
 
 include/imgui/imgui_impl_glfw.h:
+
+/usr/include/c++/11/bits/hashtable_policy.h:
 
 /usr/local/include/GLFW/glfw3.h:
 

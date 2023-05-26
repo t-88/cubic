@@ -342,4 +342,23 @@ CMakeFiles/main.dir/main.cpp.o: \
  /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h \
  /home/tee/Desktop/Projects/c++/cubic/include/shader.h \
  /home/tee/Desktop/Projects/c++/cubic/shared.h \
- /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h
+ /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/solver.h \
+ /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
+ /usr/include/c++/11/bits/algorithmfwd.h \
+ /usr/include/c++/11/bits/stl_heap.h \
+ /usr/include/c++/11/bits/stl_tempbuf.h \
+ /usr/include/c++/11/bits/uniform_int_dist.h \
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/11/functional /usr/include/c++/11/tuple \
+ /usr/include/c++/11/bits/uses_allocator.h \
+ /usr/include/c++/11/bits/invoke.h /usr/include/c++/11/bits/refwrap.h \
+ /usr/include/c++/11/bits/std_function.h /usr/include/c++/11/typeinfo \
+ /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /usr/include/c++/11/pstl/execution_defs.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/generic_solver.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/cubic.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/solver.h
