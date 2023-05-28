@@ -1549,6 +1549,8 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   include/shader.h \
   shared.h \
   include/rectangle.h \
+  include/basic_solver.h \
+  include/cubic.h \
   include/solver.h \
   /usr/include/c++/11/algorithm \
   /usr/include/c++/11/bits/stl_algo.h \
@@ -1569,13 +1571,8 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   /usr/include/c++/11/bits/hashtable_policy.h \
   /usr/include/c++/11/bits/enable_special_members.h \
   /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/pstl/execution_defs.h \
-  include/generic_solver.h \
-  include/cubic.h \
-  include/solver.h
+  /usr/include/c++/11/pstl/execution_defs.h
 
-
-include/generic_solver.h:
 
 /usr/include/c++/11/bits/enable_special_members.h:
 
@@ -1834,6 +1831,8 @@ include/glm/detail/type_vec3.hpp:
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
 
 include/glm/ext/vector_bool3.hpp:
+
+include/basic_solver.h:
 
 include/shader.h:
 

@@ -6,6 +6,10 @@ its a simulation for 2x2 cube for vis and making a simple ai to solve it
 - ai will be implemented to solve it, but first i am doing the rendering
 
 
+# Solvers
+- basic solver: uses a algorthim
+
+
 # imgs
 ![screen shot](/screenshots/_1.png)
 ![gif of the app](/screenshots/_2.gif)

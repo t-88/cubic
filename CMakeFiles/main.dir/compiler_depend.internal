@@ -1558,6 +1558,8 @@ CMakeFiles/main.dir/main.cpp.o
  /home/tee/Desktop/Projects/c++/cubic/include/shader.h
  /home/tee/Desktop/Projects/c++/cubic/shared.h
  /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h
+ /home/tee/Desktop/Projects/c++/cubic/include/basic_solver.h
+ /home/tee/Desktop/Projects/c++/cubic/include/cubic.h
  /home/tee/Desktop/Projects/c++/cubic/include/solver.h
  /usr/include/c++/11/algorithm
  /usr/include/c++/11/bits/stl_algo.h
@@ -1579,7 +1581,4 @@ CMakeFiles/main.dir/main.cpp.o
  /usr/include/c++/11/bits/enable_special_members.h
  /usr/include/c++/11/bits/unordered_map.h
  /usr/include/c++/11/pstl/execution_defs.h
- /home/tee/Desktop/Projects/c++/cubic/include/generic_solver.h
- /home/tee/Desktop/Projects/c++/cubic/include/cubic.h
- /home/tee/Desktop/Projects/c++/cubic/include/solver.h
 

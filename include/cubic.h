@@ -16,44 +16,10 @@
 
 
 
-#define RED {1.f,0.f,0.f}
-#define GREEN {0.f,1.f,0.f}
-#define BLUE {0.f,0.f,1.f}
-#define YELLOW {1.f,1.f,0.f}
-#define WHITE {1.f,1.f,1.f}
-#define ORANGE {1.f,0.65f,0.f}
-
-
-bool arr_equal(std::vector<std::vector<float>> arr1,std::vector<std::vector<float>> arr2) {
-    // takes colors and checks if they are the same
-    for(int i = 0; i < arr1.size(); i++) {
-        bool found = true;
-
-        for(int j = 0; j < arr2.size(); j++) {
-            bool checked = true;
-            found = false;
-            for(int x = 0; x < arr2[j].size(); x++) {
-                if(arr1[i][x] != arr2[j][x]) {
-                    checked = false;
-                    break;
-                } 
-            }
-            if(checked) {
-                found = true;
-                break;
-            }
-        }
-        if(!found) return false;
-    }
-    return true;
-
-}
-
-
 
 class Cubic
 {
-private:
+public:
     int size = 2;
     std::vector<Cube> cubes;
     int shuffelCounter = 20;
@@ -72,15 +38,21 @@ private:
 
 
     std::vector<std::vector<std::vector<float>>> colors = { 
-        {RED,GREEN,YELLOW},  
-        {RED,WHITE,GREEN},
-        {GREEN,ORANGE,YELLOW},
-        {WHITE,ORANGE,GREEN},
+        {ORANGE,GREEN,YELLOW},  
         
-        {RED,YELLOW,BLUE},
-        {RED,BLUE,WHITE},
-        {YELLOW,ORANGE,BLUE},
-        {BLUE,ORANGE,WHITE},
+        {ORANGE,WHITE,GREEN},
+
+        {GREEN,RED,YELLOW},
+
+        {WHITE,RED,GREEN},
+        
+        {ORANGE,YELLOW,BLUE},
+
+        {ORANGE,BLUE,WHITE},
+        
+        {YELLOW,RED,BLUE},
+        
+        {BLUE,RED,WHITE},
     };
     float cubeZoff = 8;
 
@@ -137,9 +109,10 @@ public:
 
 
 
-    std::vector<int> do_op(Operation op,std::vector<int> pOrder);
+    std::pair<std::vector<int>,std::vector<Cube>> do_op(Operation op,std::pair<std::vector<int>,std::vector<Cube>> output);
     void random_shuffel();
     void activate_random_shuffel_mode();
+    void apply_order(std::pair<std::vector<int>,std::vector<Cube>>);
    
 
     void input(GLFWwindow* window);
@@ -154,7 +127,9 @@ Cubic::Cubic() {
 
 
 
-
+void Cubic::apply_order(std::pair<std::vector<int>,std::vector<Cube>> output) {
+    for(int i = 0; i < output.second.size(); i++)  cubes[i].setColor(output.second[i].colors);
+}
 
 // animation rotations  
 void Cubic::after_anim() {
@@ -186,14 +161,20 @@ void Cubic::after_anim() {
         }
     }
 
+    if(DEBUG_OPS) {
 
-
-
-
-    for(int i = 0; i < 8; i++) {
-        printf("%d ",order[i]);
-    }
+    for(int i = 0; i < cubes.size(); i++) printf("%d ",order[i]);
     printf("\n");
+
+    }
+
+
+
+
+    // for(int i = 0; i < 8; i++) {
+    //     printf("%d ",order[i]);
+    // }
+    // printf("\n");
 
 
 }
@@ -342,17 +323,15 @@ void Cubic::random_shuffel() {
 }
 
 
-std::vector<int> Cubic::do_op(Operation op,std::vector<int> pOrder) {
-        std::vector<int> tmpOrder;
-        tmpOrder = order;
-        // for(int i = 0; i < order.size(); i++)  tmpOrder.push_back(order[i]);
-        std::vector<Cube> tmpCubes;
-        tmpCubes = cubes;
-        // for(int i = 0; i < cubes.size(); i++)  tmpCubes.push_back(cubes[i]);
+std::pair<std::vector<int>,std::vector<Cube>> Cubic::do_op(Operation op,std::pair<std::vector<int>,std::vector<Cube>> output) {
+        std::vector<int> tmpOrder(order);
+        std::vector<Cube> tmpCubes(cubes);
 
-        // printf("size: %lu\n",order.size());
+        order = output.first;
 
-        order = pOrder;
+        for(int i = 0; i < output.second.size(); i++)  cubes[i].setColor(output.second[i].colors);
+        
+
         switch (op) {
             case op_R:  R(); break;
             case op_R_inv:  R_inv(); break; 
@@ -377,17 +356,16 @@ std::vector<int> Cubic::do_op(Operation op,std::vector<int> pOrder) {
         }
     }
 
-    std::vector<int> tmpOrder2 = order;
-    tmpOrder2 = order; 
-    // for(int i = 0; i < order.size(); i++)  tmpOrder2.push_back(order[i]);
+    output.first = order;
+    output.second = cubes;
+
+
 
     order = tmpOrder;
+    cubes = tmpCubes;
     for(int i = 0; i < cubes.size(); i++)  cubes[i].setColor(tmpCubes[i].colors);
-    // for(int i = 0; i < order.size(); i++)  order[i] = tmpOrder[i];
-    // tmpOrder.clear();
-    // tmpCubes.clear();
     
-    return tmpOrder2;
+    return output;
 }
 
 

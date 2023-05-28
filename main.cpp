@@ -11,20 +11,16 @@
 #include "rectangle.h"
 
 
-#include "solver.h"
-#include "generic_solver.h"
+#include "basic_solver.h"
 
 
 
 static Rectangle rect;
-static Solver solver;
-static GenericSolver gSolver;
+static BasicSolver bSolver;
 static Cubic cube;
 
 
 static bool startSolve = false;
-
-
 
 
 
@@ -36,16 +32,17 @@ void init_imGUI(GLFWwindow* window) {
 	ImGui_ImplGlfw_InitForOpenGL(window,true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 }
-void render_imGUI(Solver* solver) {
+void render_imGUI() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
 	ImGui::Begin("window");
-		if(ImGui::Button("random")) {
-			startSolve = true; 
-			gSolver.doneSolving = false;
-			// cube->activate_random_shuffel_mode();
+		if(ImGui::Button("solve!")) {
+			bSolver.step(cube);
+		}
+		if(ImGui::Button("show stuff")) {
+			cube.apply_order(bSolver.output);
 		}
 
 		ImGui::SliderFloat("x",&rect.x,-100.f,100.f);
@@ -67,8 +64,6 @@ int main(){
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
-
 
 	GLFWwindow* window = glfwCreateWindow(WIDTH,HEIGHT,"Cubic",NULL,NULL);
     glfwMakeContextCurrent(window);
@@ -95,13 +90,11 @@ int main(){
 
 	rect = Rectangle(WIDTH - 100,0,50,50);
 	rect.setColor(1,0,0);
-	solver = Solver();
+	// solver = Solver();
 	cube.init();
 
 	shader2D.activate(); 
 	glUniformMatrix4fv(orthLoc,1,GL_FALSE,&orth	[0][0]);
-
-
 	glEnable(GL_DEPTH_TEST);
 	while(!glfwWindowShouldClose(window)) {
 		if(glfwGetKey(window,GLFW_KEY_ESCAPE) == GLFW_PRESS) 
@@ -117,18 +110,10 @@ int main(){
 		glUniformMatrix4fv(viewLoc,1,GL_FALSE,&view[0][0]);
 		cube.render(shader,window);
 		cube.render2D(shader2D,window);
-		render_imGUI(&solver);
+		render_imGUI();
 
 		shader2D.activate(); 
 		rect.render(shader2D);
-
-		if(startSolve) {
-			gSolver.step(cube);
-			printf("solved %d\n",gSolver.doneSolving);
-			if(gSolver.doneSolving) startSolve = false;
-
-			// for(int i = 0)
-		}
 
 
 
