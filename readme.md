@@ -18,6 +18,7 @@ its a simulation for 2x2 cube for vis and making a simple ai to solve it
 # imgs
 ![screen shot](/screenshots/_1.png)
 ![gif of the app](/screenshots/_2.gif)
+![gif of the app](/screenshots/_3.gif)
 
 ## Quick Start
 ```console
