@@ -38,12 +38,30 @@ void render_imGUI() {
 	ImGui::NewFrame();
 
 	ImGui::Begin("window");
+		if(ImGui::Button("random!")) {
+			cube.activate_random_shuffel_mode();
+		}
 		if(ImGui::Button("solve!")) {
-			bSolver.step(cube);
+			cube.activate_doing_ops(bSolver.solve(cube));
 		}
 		if(ImGui::Button("show stuff")) {
 			cube.apply_order(bSolver.output);
 		}
+		if(ImGui::Button("do alg")) {
+        Operation ops[] = {op_R,op_U,op_R_inv,op_U_inv};
+
+			for(auto op: ops) {
+                bSolver.output = cube.do_op(op,bSolver.output);
+            }
+		}
+		if(ImGui::Button("2")) {
+		        Operation URU_L_UR_U_L[] = {op_U,op_R,op_U_inv,op_L_inv,op_U,op_R_inv,op_U_inv,op_L};
+                for(int i = 0; i < 8; i++) {
+					bSolver.output = cube.do_op(URU_L_UR_U_L[i],bSolver.output);
+				}
+		
+		}
+
 
 		ImGui::SliderFloat("x",&rect.x,-100.f,100.f);
 	ImGui::End();

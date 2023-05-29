@@ -12,48 +12,41 @@
 #define PRINT_COLOR(c) printf("%f %f %f\n",(c)[0],(c)[1],(c)[2])
 
 
+// warning dont use those macros they need ops                
+#define DO_OP(op) output = cube.do_op(op,output); ops.push_back(op); 
+#define REPEAT_OP(op,times) for(int j__ = 0; j__ < times; j__++)  { DO_OP(op);}
+#define DO_OPS(operations) for(auto op: (operations)) { DO_OP(op);}
+
+
 
 class BasicSolver : Solver
 {
 private:
 public:
-    Cubic cube;
-    bool doneSolving = false;
-    std::array<Operation,MAX_SOLVE_STEPS> solvingPop;
-    std::vector<int> _pOrder;
     std::pair<std::vector<int>,std::vector<Cube>> output;
 
     BasicSolver();
     
-    std::array<Operation,MAX_SOLVE_STEPS> step(Cubic cube);
+std::vector<Operation> solve(Cubic cube);
     bool is_combatable(std::vector<Cube>, int , int,int*);
-    int color_exist(std::vector<Cube> , int, float color[]);
-
+    int color_exist(std::vector<std::vector<float>>, float color[]);
+    bool correctTop(std::vector<Cube> cubes);
+    
     bool is_solved(std::vector<int>);
     ~BasicSolver();
 };
 
 BasicSolver::BasicSolver(){}
-int BasicSolver::color_exist(std::vector<Cube> cubes, int index, float color[]){
+int BasicSolver::color_exist(std::vector<std::vector<float>> colors, float color[]){
     for (size_t i = 0; i < 3; i++)
-        if(COLOR_EQUAL(cubes[index].colors[i],color)) return i;
-
+        if(COLOR_EQUAL(colors[i],color)) return i;
     return -1;
 }
 bool BasicSolver::is_combatable(std::vector<Cube> cubes, int i1, int i2,int* compPos) {
     for(int i = 0; i < 3 ; i++){
-        int face = color_exist(cubes,i1,cubes[i2].colors[i].data());
+        int face = color_exist(cubes[i1].colors,cubes[i2].colors[i].data());
         if(!COLOR_EQUAL(cubes[i2].colors[i],white) &&  face !=  -1) {
-            
-            // printf("p=>>>>>>>> %d %d\n",face,i);
-            // printf("------------------\n");
-            // PRINT_COLOR(cubes[i1].colors[face]);
-            // PRINT_COLOR(cubes[i2].colors[i]);
-            // printf("------------------\n");
-            
             *compPos = face;
-
-
             return true; 
         }
     }
@@ -61,181 +54,180 @@ bool BasicSolver::is_combatable(std::vector<Cube> cubes, int i1, int i2,int* com
     return false;
 }
 
-std::array<Operation,MAX_SOLVE_STEPS> BasicSolver::step(Cubic cube) {
-    std::array<Operation,MAX_SOLVE_STEPS> ops = {};
+bool BasicSolver::correctTop(std::vector<Cube> cubes) {
+    for(int i = 0 ; i < 4 ; i++) {
+        for(auto color : cubes[2 * i].colors) {
+            if(!COLOR_EQUAL(color,yellow)) {
+                if(color_exist(cubes[2*i+1].colors,color.data()) == -1) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+std::vector<Operation> BasicSolver::solve(Cubic cube) {
+    std::vector<Operation> ops;
     output.first =  cube.order;
     output.second =  cube.cubes;
 
-
-    int i = 0;
-    int bestPossible = 0;
-    int ibestPossible  = 0;
-
-
-
-    int foundPerfect = 0;
-    int found = 0;
-    float white[3] = WHITE;
-    for(i = 0 ; i < 4; i++)
-        if(output.first[2 * i + 1] % 2 == 1) {
-            found = 1;
-            bestPossible = output.first[2 * i + 1]; // pos is right but rotation is wrong
-            ibestPossible = 2 * i + 1;
-            break;                
-        }
-
-    // if found prefect one  
-    // if found one  
-    // if its on top
-    printf("\n");
-
-#if 0 
-    // we get out with a prefect state one prefect rotated piece in 1 or 3 
-    
-    if(found) {
-        PRINT_SOLVE_STEP_ARGS("found with rotation %d %d\n",bestPossible,ibestPossible);
-        if(bestPossible != 1 && bestPossible != 3) {
-            int offset = bestPossible == 5  ? 3 : 1;
-            Operation op = bestPossible == 5 ? op_D_inv : op_D;
-            int opTimes = 2;
-            bestPossible = offset;
-            for(int i = 0 ; i < opTimes; i++) {
-                pOrder = cube.do_op(op,pOrder);
-                PRINT_SOLVE_STEP(op == op_D ? "D " : "D_inv ");
-            }
-        }
-
-        int j = bestPossible == 1 ? 1 : 0;
-        foundPerfect = cube.colors[ibestPossible][j][0] == white[0] &&
-                    cube.colors[ibestPossible][j][1] == white[1] &&
-                    cube.colors[ibestPossible][j][2] == white[2];
-
-        PRINT_SOLVE_STEP_ARGS("is a prefect match %d\n",foundPerfect);
-        if(!foundPerfect) {
-            PRINT_SOLVE_STEP("\n");
-            if(bestPossible == 1 || bestPossible == 5) {
-                PRINT_SOLVE_STEP("R ");
-                PRINT_SOLVE_STEP("U_inv ");
-                PRINT_SOLVE_STEP("R_inv ");
-                PRINT_SOLVE_STEP("R_inv ");
-                pOrder = cube.do_op(op_R,pOrder);
-                pOrder = cube.do_op(op_U_inv,pOrder);
-                pOrder = cube.do_op(op_R_inv,pOrder);
-                pOrder = cube.do_op(op_R_inv,pOrder);
-            } else {
-                PRINT_SOLVE_STEP("L_inv ");
-                PRINT_SOLVE_STEP("U ");
-                PRINT_SOLVE_STEP("L ");
-                PRINT_SOLVE_STEP("L ");
-
-                pOrder = cube.do_op(op_L_inv,pOrder);
-                pOrder = cube.do_op(op_U,pOrder);
-                pOrder = cube.do_op(op_L,pOrder);
-                pOrder = cube.do_op(op_L,pOrder);
-            }
-            PRINT_SOLVE_STEP("\n");
-        }
-    }
-#endif
-
+    int topOrder   []= {0,2,6,4};
     int bottomOrder[] = {1,3,7,5};
-    int compPos = 0;
-    PRINT_SOLVE_STEP_ARGS("found: %d\n",bestPossible);
-    for(int j = 0; j < 4; j++) {
 
-    for(int i = 0; i < 4; i++) {
-        if(color_exist(output.second,2*i,white) != -1) {
-
-            if(is_combatable(output.second,bestPossible,2 * i,&compPos)) {
-                PRINT_SOLVE_STEP_ARGS("found combatable %d %d\n",2 * i,compPos);
-                if(compPos == 2) {
-                    // printf("asdasd %d\n",color_exist(output.second,2*i,white));
-                    // PRINT_COLORS(output.second[2*i].colors);
-                    // printf("asdasd\n");
-                    int mappedOps[] = {1,0,2,3};
-                    for(int j = 0; j < mappedOps[i]; j++) {
-                        output = cube.do_op(op_U,output);
-                        PRINT_SOLVE_STEP("U ");
-                    }   
-                    PRINT_SOLVE_STEP("\n");
-
-                    Operation ops[] = {op_L_inv,op_U_inv,op_L,op_U};
-                    auto tmp = output.second[2].colors; 
-                    PRINT_COLORS(tmp);
-                    PRINT_COLORS(output.second[3].colors);
-                    while (
-                           !COLOR_EQUAL(output.second[3].colors[0] , tmp[1].data()) || 
-                           !COLOR_EQUAL(output.second[3].colors[1] , tmp[2].data()) ||  
-                           !COLOR_EQUAL(output.second[3].colors[2] , tmp[0].data())   
-                    ) {
-                        for(auto op: ops) {
-                            output = cube.do_op(op,output);
-                            PRINT_OP(op);
-                        }
-                    }
-                } else {
-                    int mappedOps[] = {1,2,0,3};
-                    for(int j = 0; j < mappedOps[i]; j++) {
-                        output = cube.do_op(op_U_inv,output);
-                        PRINT_SOLVE_STEP("U_inv ");
-                    }   
-                    PRINT_SOLVE_STEP("\n");
-
-                    Operation ops[] = {op_B,op_U,op_B_inv,op_U_inv};
-                    auto tmp = output.second[4].colors; 
-                    // PRINT_COLORS(tmp);
-                    // PRINT_COLORS(output.second[5].colors);
-                    int a = 0;
-
-                    #if 1
-                    while (
-                           !COLOR_EQUAL(output.second[5].colors[2] , tmp[2].data()) || 
-                           !COLOR_EQUAL(output.second[5].colors[0] , tmp[0].data()) ||  
-                           !COLOR_EQUAL(output.second[5].colors[1] , tmp[1].data())   
-                            ) {
-                        for(auto op: ops) {
-                            output = cube.do_op(op,output);
-                            PRINT_OP(op);
-                        }
-                        if(a == 10) break;
-                        a++;
-                    }
-                    #endif
+    Operation RUR_U_[] = {op_R,op_U,op_R_inv,op_U_inv}; 
+    Operation L_U_LU[] = {op_L_inv,op_U_inv,op_L,op_U}; 
+    Operation BUB_U_[] = {op_B,op_U,op_B_inv,op_U_inv};
+    Operation B_U_BU[] = {op_B_inv,op_U_inv,op_B,op_U};
+    Operation URU_L_UR_U_L[] = {op_U,op_R,op_U_inv,op_L_inv,op_U,op_R_inv,op_U_inv,op_L};
 
 
 
+
+    // we put a white block at index 1
+    {
+        int findWhite = -1;
+        do {
+            for(int i = 0; i < 4; i++) {
+                if(color_exist(output.second[2*i+1].colors,white) != -1) {
+                    findWhite = i;
+                    break;
                 }
-            } else {
-                PRINT_SOLVE_STEP_ARGS("not combatable %d %d\n",2 * i,compPos);
-                int mappedOps[] = {2,1,3,0};
-                for(int j = 0; j < mappedOps[i]; j++) {
-                    output = cube.do_op(op_U_inv,output);
-                    PRINT_OP(op_U_inv);
-                }
-
-                Operation ops[] = {op_B_inv,op_U_inv,op_B,op_U};
-                auto tmp = output.second[6].colors; 
-                // PRINT_COLORS(tmp);
-                // PRINT_COLORS(output.second[7].colors);
-                while (
-                       !COLOR_EQUAL(output.second[7].colors[2] , tmp[2].data()) || 
-                       !COLOR_EQUAL(output.second[7].colors[1] , tmp[1].data()) ||  
-                       !COLOR_EQUAL(output.second[7].colors[0] , tmp[0].data())   
-                        ) {
-                    for(auto op: ops) {
-                        output = cube.do_op(op,output);
-                        PRINT_OP(op);
-                    }
-                }                
-
             }
+            if(findWhite == -1) {
+                printf("%d \n",findWhite);
+                DO_OP(op_F);
+                DO_OP(op_F);
+                DO_OP(op_B);
+                DO_OP(op_B);
+            }  
+        } while(findWhite == -1);
+        int rotateOrder[] = {0,1,3,2};
+        REPEAT_OP(op_D_inv,rotateOrder[findWhite]);
+
+        while(index_of(cube.colors[1],white) != index_of(output.second[1].colors,white))
+            DO_OPS(RUR_U_);
+    }
+    // do bottom layer
+    {
+        std::vector<float> leftColor  = output.second[1].colors[2];  
+        std::vector<float> rightColor = output.second[1].colors[0];
+
+        int rotateOrder[] = {1,0,2,3}; // left and right
+        int rotateOrderEdge[] = {2,1,0,3}; // left and right
+
+
+        bool done;
+        int counter = 0;
+        do {
+            done = true;
+            for(int _ = 0; _ < 3; _++) {
+                for(int i = 0; i < 4; i++) {
+                    if(color_exist(output.second[2*i].colors,white) != -1) {
+                        if(color_exist(output.second[2*i].colors,leftColor.data()) != -1) {
+                            REPEAT_OP(op_U,rotateOrder[i]);
+                            std::vector<std::vector<float>>  tmp = output.second[2].colors;
+                            while(index_of(cube.colors[3],white) != index_of(output.second[3].colors,white) || !arr_equal(tmp,output.second[3].colors))  
+                                DO_OPS(L_U_LU);
+                            // printf("left\n");
+                        } else if(color_exist(output.second[2*i].colors,rightColor.data()) != -1) {
+                            REPEAT_OP(op_U, rotateOrder[3 -i]);
+                            std::vector<std::vector<float>>  tmp = output.second[4].colors;
+                            while(index_of(cube.colors[5],white) != index_of(output.second[5].colors,white) || !arr_equal(tmp,output.second[5].colors))  
+                                DO_OPS(BUB_U_);
+                            // printf("right\n");
+                        } else {
+                            REPEAT_OP(op_U_inv,rotateOrderEdge[i]);
+                            DO_OPS(B_U_BU);
+                            // printf("edje\n");
+                        }
+                    }
+                }
+            }
+
+            for(int i = 1; i < 4; i++) {
+                if(index_of(cube.colors[2 * i + 1],white) != index_of(output.second[2*i+1].colors,white)) {
+                    switch (i) {
+                        case 1: DO_OPS(L_U_LU); break;
+                        case 2: DO_OPS(BUB_U_); break;
+                        case 3: DO_OPS(B_U_BU); break;
+                        default: printf("This should no be Reached!!!"); break;
+                    }
+                    done = false;
+                    break;
+                }
+            }
+
+
+
+        } while (!done);
+    }
+
+    // do top layer poses
+    {
+        int rotateOrder[] = {0,1,3,2};
+        int counter = 0;
+        int thatOne = 0; 
+        int r = 0;
+        bool foundFormation = false;
+	    do {
+            counter = 0;
+            for(int i = 0; i < 4; i++) {
+	    	    bool x = true;
+                for(auto color: output.second[i * 2].colors) {
+                    if(!COLOR_EQUAL(color,yellow)) {
+                        if(color_exist(output.second[i*2+1].colors,color.data()) == -1) {
+                            x = false;
+	    	    	        break;
+                        }
+                    }
+	    	    }
+	    	    if(x) {
+	    	    	counter++;
+                    thatOne = i;
+                }
+            }
+            
+            if(counter == 4) {
+                break;
+            }
+
+            if(!foundFormation && counter != 4) {
+    	        if(counter == 1) {
+                    REPEAT_OP(op_U_inv,rotateOrder[thatOne]);
+                    REPEAT_OP(op_D_inv,rotateOrder[thatOne]);
+                    foundFormation = true;
+                } else {
+                    r = (r + 1) % 4;
+                    if(r == 0) {
+                        DO_OPS(URU_L_UR_U_L);
+                    }
+                    DO_OP(op_U);
+                }
+            } else if(foundFormation) {
+                DO_OPS(URU_L_UR_U_L);
+            }
+            
+
+	    } while(true);
+
+        REPEAT_OP(op_F,2);
+        REPEAT_OP(op_B,2);
+    }
+    
+    // do top layer all
+    {
+        for (auto i : bottomOrder) {
+            std::vector<std::vector<float>> tmp = output.second[1].colors;
+            while (index_of(cube.colors[1],white) != index_of(output.second[1].colors,yellow) || !arr_equal(tmp,output.second[1].colors) ) {
+                DO_OPS(RUR_U_);
+            }
+            DO_OP(op_D);
         }
+    }       
+    for(int i = 0; i < ops.size();i++) {
+        printf("%d \n",ops[i]);
     }
-    }
-
-
-
-
     return ops;
 }
 

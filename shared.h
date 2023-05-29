@@ -25,6 +25,9 @@
     #define WHITE {1.f,1.f,1.f}
     #define ORANGE {1.f,0.65f,0.f}
 
+    
+
+
     const float WIDTH  = 800.f;
     const float HEIGHT = 600.f;  
 
@@ -58,7 +61,7 @@
         Noth,
     };
 
-    Operation ops[] = {
+    Operation allOps[] = {
             op_R,
             op_R_inv,
             op_L,
@@ -77,6 +80,7 @@
 
 
     float white[3] = WHITE;  
+    float yellow[3] = YELLOW;
 
 
 
@@ -103,6 +107,17 @@ bool arr_equal(std::vector<std::vector<float>> arr1,std::vector<std::vector<floa
     }
     return true;
 
+
+
+}
+
+int index_of(std::vector<std::vector<float>> colors, float* color) {
+    for(int i = 0; i < 3; i++) {
+        if(COLOR_EQUAL(colors[i],color)) {
+            return i;
+        }
+    }
+    return -1;
 }
     
 #endif

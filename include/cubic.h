@@ -30,7 +30,7 @@ public:
     float currRot = 0.f;
 
     float start , curr;
-    float dur = 0.2f;
+    float dur = 0.05f;
 
     std::set<int> parts;
     Operation operation;
@@ -84,6 +84,8 @@ public:
 
 public:
     std::vector<int> order = {0,1,2,3,4,5,6,7};
+    bool doingOps = false;
+    std::vector<Operation> opsInProgress;
 
 
     Cubic(int _size);
@@ -110,6 +112,8 @@ public:
 
 
     std::pair<std::vector<int>,std::vector<Cube>> do_op(Operation op,std::pair<std::vector<int>,std::vector<Cube>> output);
+    void do_ops();
+    void activate_doing_ops(std::vector<Operation> ops);
     void random_shuffel();
     void activate_random_shuffel_mode();
     void apply_order(std::pair<std::vector<int>,std::vector<Cube>>);
@@ -318,10 +322,26 @@ void Cubic::random_shuffel() {
 
         int dirs[] = {1,-1,-1,1,1,-1,1,-1,-1,1,1,-1};
         int val = rand() % 12;
-        init_anim(orientation[(int)ops[val]/2],ops[val],(int)ops[val]/4,dirs[val]);
+        init_anim(orientation[(int)allOps[val]/2],allOps[val],(int)allOps[val]/4,dirs[val]);
     }
 }
+void Cubic::activate_doing_ops(std::vector<Operation> ops) {
+    doingOps = true;
+    opsInProgress =  ops;
+}
+void Cubic::do_ops() {
+    if(!doingOps) return;
 
+    if(!animate) {
+        if(opsInProgress.size() == 0) {
+            doingOps = false;
+            return;
+        }
+        int dirs[] = {1,-1,-1,1,1,-1,1,-1,-1,1,1,-1};
+        init_anim(orientation[(int)opsInProgress[0]/2],opsInProgress[0],(int)opsInProgress[0]/4,dirs[opsInProgress[0]]);
+        opsInProgress.erase(opsInProgress.begin());
+    }
+}
 
 std::pair<std::vector<int>,std::vector<Cube>> Cubic::do_op(Operation op,std::pair<std::vector<int>,std::vector<Cube>> output) {
         std::vector<int> tmpOrder(order);
@@ -374,6 +394,8 @@ void Cubic::render(Shader shader,GLFWwindow* window){
     input(window);
     update_anim(); 
     random_shuffel();
+    do_ops();
+
     for (int i = 0; i < 8; i++) {
         glm::mat4 model = glm::mat4(1.f);
         
