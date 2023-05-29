@@ -1544,14 +1544,14 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   /usr/include/c++/11/utility \
   /usr/include/c++/11/bits/stl_relops.h \
   include/cube.h \
-  shared.h \
   include/rectangle.h \
+  shared.h \
+  cubic_utils.h \
+  shared.h \
   include/shader.h \
   shared.h \
   include/rectangle.h \
   include/basic_solver.h \
-  include/cubic.h \
-  include/solver.h \
   /usr/include/c++/11/algorithm \
   /usr/include/c++/11/bits/stl_algo.h \
   /usr/include/c++/11/bits/algorithmfwd.h \
@@ -1571,8 +1571,12 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
   /usr/include/c++/11/bits/hashtable_policy.h \
   /usr/include/c++/11/bits/enable_special_members.h \
   /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/pstl/execution_defs.h
+  /usr/include/c++/11/pstl/execution_defs.h \
+  include/cubic.h \
+  include/solver.h
 
+
+include/solver.h:
 
 /usr/include/c++/11/bits/enable_special_members.h:
 
@@ -1590,7 +1594,7 @@ CMakeFiles/main.dir/main.cpp.o: main.cpp \
 
 /usr/include/c++/11/pstl/glue_algorithm_defs.h:
 
-include/solver.h:
+cubic_utils.h:
 
 include/rectangle.h:
 

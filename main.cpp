@@ -15,12 +15,10 @@
 
 
 
-static Rectangle rect;
 static BasicSolver bSolver;
 static Cubic cube;
 
 
-static bool startSolve = false;
 
 
 
@@ -42,28 +40,19 @@ void render_imGUI() {
 			cube.activate_random_shuffel_mode();
 		}
 		if(ImGui::Button("solve!")) {
-			cube.activate_doing_ops(bSolver.solve(cube));
+			std::vector<Operation> ops = bSolver.ooga_booga_solve(cube);
+			cube.activate_doing_ops(ops);
+			printf("solotion:\n");
+			printf("-------------------------------------------------\n");
+			for(auto op: ops)
+				printf("%s ",opsAsString[op].c_str());
+			printf("\n-------------------------------------------------\n");
 		}
-		if(ImGui::Button("show stuff")) {
-			cube.apply_order(bSolver.output);
-		}
-		if(ImGui::Button("do alg")) {
-        Operation ops[] = {op_R,op_U,op_R_inv,op_U_inv};
-
-			for(auto op: ops) {
-                bSolver.output = cube.do_op(op,bSolver.output);
-            }
-		}
-		if(ImGui::Button("2")) {
-		        Operation URU_L_UR_U_L[] = {op_U,op_R,op_U_inv,op_L_inv,op_U,op_R_inv,op_U_inv,op_L};
-                for(int i = 0; i < 8; i++) {
-					bSolver.output = cube.do_op(URU_L_UR_U_L[i],bSolver.output);
-				}
-		
-		}
+		ImGui::SliderFloat("solve speed",&rotSpeed,0.5,5);
 
 
-		ImGui::SliderFloat("x",&rect.x,-100.f,100.f);
+
+
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -106,9 +95,6 @@ int main(){
 
 
 
-	rect = Rectangle(WIDTH - 100,0,50,50);
-	rect.setColor(1,0,0);
-	// solver = Solver();
 	cube.init();
 
 	shader2D.activate(); 
@@ -122,7 +108,6 @@ int main(){
 		glClearColor(0.f,0.f,0.f,1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
 		shader.activate(); 
 		glUniformMatrix4fv(projLoc,1,GL_FALSE,&proj[0][0]);
 		glUniformMatrix4fv(viewLoc,1,GL_FALSE,&view[0][0]);
@@ -131,9 +116,6 @@ int main(){
 		render_imGUI();
 
 		shader2D.activate(); 
-		rect.render(shader2D);
-
-
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -141,7 +123,6 @@ int main(){
 
 	
 	cube.clean();
-	rect.clean();
 
 	clean_imGUI();
 	glfwTerminate();

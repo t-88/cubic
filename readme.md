@@ -7,8 +7,13 @@ its a simulation for 2x2 cube for vis and making a simple ai to solve it
 
 
 # Solvers
-- basic solver: uses a algorthim
+- basic solver: uses the ooga_booga algorthim
 
+# How to move
+- operation : {key}
+- R : {R} | R_inv : {E} | L : {L} | L_inv : {K}
+- U : {U} | U_inv : {Y} | D : {D} | D_inv : {S}
+- B : {B} | B_inv : {V} | F : {F} | F_inv : {G}
 
 # imgs
 ![screen shot](/screenshots/_1.png)

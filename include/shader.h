@@ -16,8 +16,6 @@ typedef struct {
 
 
 
-
-
 class Shader {
 	public: 
 		uint32_t id;

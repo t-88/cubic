@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "array": "cpp"
+        "array": "cpp",
+        "algorithm": "cpp",
+        "vector": "cpp"
     }
 }

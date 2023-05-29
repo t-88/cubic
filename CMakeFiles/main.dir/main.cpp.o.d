@@ -338,14 +338,14 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/11/bits/basic_string.tcc /usr/include/c++/11/array \
  /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
  /home/tee/Desktop/Projects/c++/cubic/include/cube.h \
- /home/tee/Desktop/Projects/c++/cubic/./shared.h \
  /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h \
+ /home/tee/Desktop/Projects/c++/cubic/./shared.h \
+ /home/tee/Desktop/Projects/c++/cubic/./cubic_utils.h \
+ /home/tee/Desktop/Projects/c++/cubic/./shared.h \
  /home/tee/Desktop/Projects/c++/cubic/include/shader.h \
  /home/tee/Desktop/Projects/c++/cubic/shared.h \
  /home/tee/Desktop/Projects/c++/cubic/include/rectangle.h \
  /home/tee/Desktop/Projects/c++/cubic/include/basic_solver.h \
- /home/tee/Desktop/Projects/c++/cubic/include/cubic.h \
- /home/tee/Desktop/Projects/c++/cubic/include/solver.h \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \
@@ -360,4 +360,6 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/11/bits/hashtable_policy.h \
  /usr/include/c++/11/bits/enable_special_members.h \
  /usr/include/c++/11/bits/unordered_map.h \
- /usr/include/c++/11/pstl/execution_defs.h
+ /usr/include/c++/11/pstl/execution_defs.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/cubic.h \
+ /home/tee/Desktop/Projects/c++/cubic/include/solver.h
